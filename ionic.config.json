@@ -1,0 +1,7 @@
+{
+  "name": "lethabocafe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
