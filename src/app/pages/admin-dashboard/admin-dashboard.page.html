@@ -1,0 +1,153 @@
+<ion-header [translucent]="true" class="admin-header">
+  <ion-toolbar>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose · Console</p>
+      <h1 class="cover-title">Hi, {{ firstName }}</h1>
+      <p class="cover-sub">{{ cafeService.getProfile()?.role === 'admin' ? 'Full control' : 'Moderator view' }}</p>
+    </div>
+    <button type="button" class="header-action" aria-label="Sign out" (click)="logout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-content">
+  <div class="admin-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="admin-inner">
+    <div class="diamond-rule" aria-hidden="true">
+      <span class="rule-line"></span>
+      <span class="diamond">&#9670;</span>
+      <span class="rule-line"></span>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <span class="stat-ico"><ion-icon name="receipt-outline"></ion-icon></span>
+        <p class="stat-value">{{ orders.length }}</p>
+        <p class="stat-label">Orders</p>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-ico"><ion-icon name="flash-outline"></ion-icon></span>
+        <p class="stat-value">{{ activeCount }}</p>
+        <p class="stat-label">Active</p>
+      </div>
+      <div class="stat-tile stat-tile--gold">
+        <span class="stat-ico"><ion-icon name="cash-outline"></ion-icon></span>
+        <p class="stat-value">{{ money(revenue) }}</p>
+        <p class="stat-label">Revenue</p>
+      </div>
+      <div class="stat-tile" [class.stat-tile--warn]="openFlagsCount > 0">
+        <span class="stat-ico"><ion-icon name="flag-outline"></ion-icon></span>
+        <p class="stat-value">{{ openFlagsCount }}</p>
+        <p class="stat-label">Open flags</p>
+      </div>
+    </div>
+
+    <!-- Moderation quick links -->
+    <div class="section-head">
+      <p class="section-title">Moderation</p>
+    </div>
+    <div class="quick-grid">
+      <a class="quick-card" routerLink="/admin-reviews">
+        <span class="quick-ico"><ion-icon name="star-outline"></ion-icon></span>
+        <span>
+          <p class="quick-label">Reviews</p>
+          <p class="quick-count">{{ reviewsCount }} total</p>
+        </span>
+      </a>
+      <a class="quick-card" routerLink="/admin-flags">
+        <span class="quick-ico"><ion-icon name="flag-outline"></ion-icon></span>
+        <span>
+          <p class="quick-label">Flags</p>
+          <p class="quick-count">{{ openFlagsCount }} open</p>
+        </span>
+      </a>
+    </div>
+
+    <!-- Management / CRUD -->
+    <div class="section-head">
+      <p class="section-title">Manage</p>
+    </div>
+    <div class="quick-grid">
+      <a class="quick-card" routerLink="/admin-users">
+        <span class="quick-ico"><ion-icon name="people-outline"></ion-icon></span>
+        <span>
+          <p class="quick-label">Users</p>
+          <p class="quick-count">{{ usersCount }} total</p>
+        </span>
+      </a>
+      <a class="quick-card" routerLink="/admin-permissions">
+        <span class="quick-ico"><ion-icon name="shield-outline"></ion-icon></span>
+        <span>
+          <p class="quick-label">Permissions</p>
+          <p class="quick-count">Role access</p>
+        </span>
+      </a>
+      <a class="quick-card" routerLink="/admin-customers">
+        <span class="quick-ico"><ion-icon name="person-outline"></ion-icon></span>
+        <span>
+          <p class="quick-label">Customers</p>
+          <p class="quick-count">Guest book</p>
+        </span>
+      </a>
+      <a class="quick-card" routerLink="/admin-items">
+        <span class="quick-ico"><ion-icon name="restaurant-outline"></ion-icon></span>
+        <span>
+          <p class="quick-label">Menu Items</p>
+          <p class="quick-count">The carte</p>
+        </span>
+      </a>
+    </div>
+
+    <!-- Orders -->
+    <div class="section-head">
+      <p class="section-title">Recent orders</p>
+    </div>
+
+    <div *ngIf="recentOrders.length === 0" class="empty">
+      <div class="empty-ico"><ion-icon name="receipt-outline"></ion-icon></div>
+      <h2>No orders yet</h2>
+      <p>New orders will appear here as they come in.</p>
+    </div>
+
+    <div class="admin-card" *ngFor="let order of recentOrders">
+      <div class="card-top">
+        <div>
+          <span class="card-id">{{ order.id }}</span>
+          <p class="card-meta">
+            {{ order.customer }} ·
+            {{ order.tableNumber ? 'Table ' + order.tableNumber : 'Takeaway' }} ·
+            {{ order.createdAt | date: 'short' }}
+          </p>
+        </div>
+        <span class="badge badge--{{ order.status }}">{{ order.status }}</span>
+        <span *ngIf="order.paymentMethod" class="pay-chip pay-chip--{{ order.paymentMethod }}">
+          {{ order.paymentMethod }}
+        </span>
+      </div>
+
+      <ul class="order-items">
+        <li *ngFor="let item of order.items">
+          <span>{{ item.emoji }} {{ item.name }} × {{ item.qty }}</span>
+          <span class="leader" aria-hidden="true"></span>
+          <span class="oi-price">{{ money(item.price * item.qty) }}</span>
+        </li>
+      </ul>
+
+      <div class="card-foot">
+        <span class="card-total">{{ money(order.total) }}</span>
+        <select
+          class="status-select"
+          [value]="order.status"
+          (change)="onStatusChange(order.id, $event)"
+          aria-label="Update order status"
+        >
+          <option *ngFor="let status of orderStatuses" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</ion-content>

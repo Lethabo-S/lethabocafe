@@ -35,3 +35,503 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+/* ----------------------------------------------------------------------------
+ * CAFÉ THEME VARIABLES - Forever & Rose
+ * -------------------------------------------------------------------------- */
+:root {
+  --radius: 0.875rem;
+
+  /* Café palette: warm cream + dusty rose + soft gold */
+  --background: oklch(0.985 0.008 60);       /* #fcf6f4 cream */
+  --foreground: oklch(0.24 0.03 25);         /* deep espresso */
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.03 25);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.03 25);
+
+  --primary: oklch(0.62 0.09 20);            /* #c2787a dusty rose */
+  --primary-foreground: oklch(0.99 0.005 60);
+
+  --secondary: oklch(0.94 0.02 40);
+  --secondary-foreground: oklch(0.3 0.04 25);
+
+  --muted: oklch(0.95 0.012 60);
+  --muted-foreground: oklch(0.5 0.03 30);
+
+  --accent: oklch(0.92 0.035 50);
+  --accent-foreground: oklch(0.3 0.04 25);
+
+  --destructive: oklch(0.55 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.9 0.015 40);
+  --input: oklch(0.9 0.015 40);
+  --ring: oklch(0.62 0.09 20);
+
+  --rose: oklch(0.62 0.09 20);
+  --rose-soft: oklch(0.9 0.04 20);
+  --cream: oklch(0.97 0.015 60);
+  --gold: oklch(0.78 0.11 80);
+}
+
+/* Dark mode overrides */
+.dark {
+  --background: oklch(0.19 0.02 25);
+  --foreground: oklch(0.97 0.01 60);
+  --card: oklch(0.24 0.02 25);
+  --card-foreground: oklch(0.97 0.01 60);
+  --popover: oklch(0.24 0.02 25);
+  --popover-foreground: oklch(0.97 0.01 60);
+  --primary: oklch(0.72 0.09 20);
+  --primary-foreground: oklch(0.2 0.02 25);
+  --secondary: oklch(0.28 0.02 25);
+  --secondary-foreground: oklch(0.97 0.01 60);
+  --muted: oklch(0.28 0.02 25);
+  --muted-foreground: oklch(0.7 0.02 30);
+  --accent: oklch(0.32 0.03 30);
+  --accent-foreground: oklch(0.97 0.01 60);
+  --destructive: oklch(0.7 0.19 22);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.72 0.09 20);
+}
+
+/* Apply theme variables to Ionic components */
+:root {
+  --ion-background-color: var(--background);
+  --ion-background-color-rgb: 252, 246, 244;
+  --ion-text-color: var(--foreground);
+  --ion-text-color-rgb: 61, 10, 5;
+  
+  --ion-color-primary: #c2787a;
+  --ion-color-primary-rgb: 194, 120, 122;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #ab6a6c;
+  --ion-color-primary-tint: #c98688;
+  
+  --ion-color-secondary: #e8ddd6;
+  --ion-color-secondary-rgb: 232, 221, 214;
+  --ion-color-secondary-contrast: #4d3a30;
+  --ion-color-secondary-contrast-rgb: 77, 58, 48;
+  --ion-color-secondary-shade: #ccbdb5;
+  --ion-color-secondary-tint: #ebe0da;
+  
+  --ion-color-tertiary: #f5e6d3;
+  --ion-color-tertiary-rgb: 245, 230, 211;
+  --ion-color-tertiary-contrast: #4d3a30;
+  --ion-color-tertiary-contrast-rgb: 77, 58, 48;
+  --ion-color-tertiary-shade: #d8cbba;
+  --ion-color-tertiary-tint: #f6e9d7;
+  
+  --ion-color-success: #2dd55b;
+  --ion-color-success-rgb: 45, 213, 91;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #28bb50;
+  --ion-color-success-tint: #42d96b;
+  
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+  
+  --ion-color-danger: #c5000f;
+  --ion-color-danger-rgb: 197, 0, 15;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #ad000d;
+  --ion-color-danger-tint: #cb1a27;
+  
+  --ion-color-light: #fcf6f4;
+  --ion-color-light-rgb: 252, 246, 244;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #ded8d7;
+  --ion-color-light-tint: #fcf7f5;
+  
+  --ion-color-medium: #7a6a6a;
+  --ion-color-medium-rgb: 122, 106, 106;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #6b5d5d;
+  --ion-color-medium-tint: #877979;
+  
+  --ion-color-dark: #3d0a05;
+  --ion-color-dark-rgb: 61, 10, 5;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #360904;
+  --ion-color-dark-tint: #50231e;
+}
+
+/* Global base styles */
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  letter-spacing: -0.01em;
+}
+
+/* ----------------------------------------------------------------------------
+ * Shared skeleton / shimmer loading styles
+ * -------------------------------------------------------------------------- */
+@keyframes lc-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.lc-skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--ion-color-step-100) 25%,
+    var(--ion-color-step-200) 50%,
+    var(--ion-color-step-100) 75%
+  );
+  background-size: 200% 100%;
+  animation: lc-shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.lc-skeleton-round {
+  border-radius: 999px;
+}
+
+/* Generic spacing helper for content pages */
+.lc-page-pad {
+  padding: 16px;
+}
+
+.lc-muted {
+  color: var(--ion-color-medium);
+}
+
+.lc-section-title {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ion-color-medium);
+}
+
+/* Generic typographic content for info / legal pages */
+.info {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.info h1 {
+  font-size: 1.4rem;
+  margin: 0 0 12px;
+}
+
+.info h2 {
+  font-size: 1.1rem;
+  margin: 20px 0 8px;
+}
+
+.info p {
+  margin: 0 0 12px;
+  line-height: 1.5;
+  color: var(--ion-color-step-650, #404040);
+}
+
+/* ----------------------------------------------------------------------------
+ * CAFÉ SPECIFIC UTILITY CLASSES
+ * -------------------------------------------------------------------------- */
+/* Colors */
+.text-rose {
+  color: var(--rose);
+}
+
+.text-gold {
+  color: var(--gold);
+}
+
+.text-cream {
+  color: var(--cream);
+}
+
+.bg-rose {
+  background-color: var(--rose);
+}
+
+.bg-rose-soft {
+  background-color: var(--rose-soft);
+}
+
+.bg-cream {
+  background-color: var(--cream);
+}
+
+/* Borders */
+.border-rose {
+  border-color: var(--rose);
+}
+
+.border-gold {
+  border-color: var(--gold);
+}
+
+/* Radius */
+.radius-sm {
+  border-radius: calc(var(--radius) * 0.5);
+}
+
+.radius-md {
+  border-radius: var(--radius);
+}
+
+.radius-lg {
+  border-radius: calc(var(--radius) * 1.5);
+}
+
+.radius-full {
+  border-radius: 999px;
+}
+
+/* Shadows */
+.shadow-soft {
+  box-shadow: 0 2px 12px rgba(61, 10, 5, 0.06);
+}
+
+.shadow-medium {
+  box-shadow: 0 4px 20px rgba(61, 10, 5, 0.08);
+}
+
+/* Typography */
+.font-serif {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+}
+
+.font-sans {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------------------------
+ * IONIC COMPONENT OVERRIDES
+ * -------------------------------------------------------------------------- */
+/* Toolbar */
+ion-toolbar {
+  --background: var(--background);
+  --border-color: var(--border);
+}
+
+/* Cards */
+ion-card {
+  --background: var(--card);
+  --color: var(--card-foreground);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 12px rgba(61, 10, 5, 0.06);
+}
+
+/* Buttons */
+ion-button {
+  --border-radius: 999px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.3px;
+}
+
+/* Inputs */
+ion-input,
+ion-textarea,
+ion-select {
+  --border-radius: var(--radius);
+  --background: var(--background);
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+}
+
+/* Segments */
+ion-segment {
+  --background: transparent;
+}
+
+ion-segment-button {
+  --color: var(--muted-foreground);
+  --color-checked: var(--primary);
+  --indicator-color: var(--primary);
+  --indicator-height: 3px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Select */
+ion-select {
+  --placeholder-color: var(--muted-foreground);
+  --placeholder-opacity: 1;
+}
+
+/* Badges */
+ion-badge {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+/* Chips */
+ion-chip {
+  --border-radius: 999px;
+  --background: var(--card);
+  --color: var(--foreground);
+  font-weight: 500;
+}
+
+/* Modal / Sheet */
+ion-modal {
+  --border-radius: 24px 24px 0 0;
+  --box-shadow: 0 -4px 24px rgba(61, 10, 5, 0.08);
+}
+
+ion-modal::part(backdrop) {
+  background: rgba(61, 10, 5, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+/* Editorial CRUD sheet — rounded top, luxe shadow */
+ion-modal.crud-sheet {
+  --border-radius: 22px 22px 0 0;
+  --box-shadow: 0 -12px 44px rgba(61, 10, 5, 0.22);
+}
+
+ion-modal.crud-sheet::part(content) {
+  border-radius: 22px 22px 0 0;
+  overflow: hidden;
+}
+
+/* ----------------------------------------------------------------------------
+ * RESPONSIVE HELPERS
+ * -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .lc-page-pad {
+    padding: 12px;
+  }
+  
+  .info h1 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .lc-page-pad {
+    padding: 24px;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * SCROLLBAR STYLING (WebKit)
+ * -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
+/* Hide scrollbar for horizontal scrolling elements */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ----------------------------------------------------------------------------
+ * BLOOM — shared tap ripple used by [appBloom] across screens
+ * -------------------------------------------------------------------------- */
+@keyframes bloom-ripple {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * TOASTS — Carte theme
+ * Toasts render at the app root (outside component encapsulation), so their
+ * styling must live in global CSS. Rose pill for confirmations, dark for muted.
+ * -------------------------------------------------------------------------- */
+ion-toast.carte-toast,
+ion-toast.rv-toast,
+ion-toast.scan-toast {
+  --background: var(--ion-color-primary);
+  --color: #ffffff;
+  --border-radius: 999px;
+  font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  text-align: center;
+
+  &::part(button) {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+ion-toast.rv-toast--muted {
+  --background: var(--ion-color-dark);
+  --color: #ffffff;
+}

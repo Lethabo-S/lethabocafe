@@ -1,0 +1,88 @@
+<ion-header [translucent]="true" class="profile-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/me" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Edit Profile</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-content">
+  <div class="profile-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="profile-inner">
+    <!-- Loading skeleton -->
+    <div *ngIf="loading" class="skeleton-wrap">
+      <div class="lc-skeleton lc-skeleton-round" style="width: 92px; height: 92px; margin: 8px auto 20px;"></div>
+      <div class="lc-skeleton" style="height: 62px; border-radius: 16px; margin-bottom: 12px;"></div>
+      <div class="lc-skeleton" style="height: 62px; border-radius: 16px; margin-bottom: 12px;"></div>
+      <div class="lc-skeleton" style="height: 62px; border-radius: 16px;"></div>
+    </div>
+
+    <ng-container *ngIf="!loading">
+      <!-- Avatar hero -->
+      <div class="avatar-hero">
+        <div class="avatar-ring">
+          <span class="avatar-initials">{{ initials }}</span>
+          <button type="button" class="avatar-cam" aria-label="Change photo">
+            <ion-icon name="camera-outline"></ion-icon>
+          </button>
+        </div>
+        <span class="role-chip" [class.role-chip--admin]="isAdmin">
+          <ion-icon name="ribbon-outline"></ion-icon>
+          {{ roleLabel() }}
+        </span>
+        <p class="member-since" *ngIf="joinedAt">Member since {{ joinedAt | date: 'MMMM y' }}</p>
+      </div>
+
+      <!-- Form -->
+      <form (ngSubmit)="save()">
+        <div class="field">
+          <span class="field-ico"><ion-icon name="person-outline"></ion-icon></span>
+          <ion-input
+            label="Full name"
+            label-placement="stacked"
+            type="text"
+            autocomplete="name"
+            [(ngModel)]="name"
+            name="name"
+          ></ion-input>
+        </div>
+
+        <div class="field">
+          <span class="field-ico"><ion-icon name="mail-outline"></ion-icon></span>
+          <ion-input
+            label="Email"
+            label-placement="stacked"
+            type="email"
+            autocomplete="email"
+            [(ngModel)]="email"
+            name="email"
+          ></ion-input>
+        </div>
+
+        <div class="field">
+          <span class="field-ico"><ion-icon name="call-outline"></ion-icon></span>
+          <ion-input
+            label="Phone"
+            label-placement="stacked"
+            type="tel"
+            inputmode="tel"
+            placeholder="Add a number"
+            [(ngModel)]="phone"
+            name="phone"
+          ></ion-input>
+        </div>
+
+        <button type="submit" class="save-btn bloom" [disabled]="saving" appBloom>
+          <ion-icon name="save-outline"></ion-icon>
+          {{ saving ? 'Saving…' : 'Save changes' }}
+        </button>
+      </form>
+    </ng-container>
+  </div>
+</ion-content>

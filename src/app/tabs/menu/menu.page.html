@@ -1,0 +1,276 @@
+<ion-header [translucent]="true" class="menu-header">
+  <ion-toolbar>
+    <div class="cover">
+      <p class="cover-eyebrow">
+        {{ greeting }} &middot;
+        <span class="table-badge">{{ tableNumber ? 'Table ' + tableNumber : 'No table' }}</span>
+      </p>
+      <h1 class="cover-brand">
+        <span class="cover-word">Forever</span>
+        <span class="cover-amp">&amp;</span>
+        <span class="cover-word">Rose</span>
+      </h1>
+      <div class="cover-rule" aria-hidden="true">
+        <span class="cover-diamond">&#9670;</span>
+      </div>
+      <p class="cover-sub">
+        What shall we savor today<ng-container *ngIf="memberName; else guestGreeting">, <strong>{{ memberName }}</strong></ng-container>?
+      </p>
+      <ng-template #guestGreeting></ng-template>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="menu-content">
+  <!-- Atmospheric layers -->
+  <div class="menu-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+
+  <div class="menu-inner">
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="loading-seal" aria-hidden="true">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+      <p class="loading-text">Setting the table&hellip;</p>
+    </div>
+
+    <!-- Carte -->
+    <ng-container *ngIf="!isLoading">
+      <!-- Search -->
+      <div class="search">
+        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+        <input
+          type="search"
+          class="search-input"
+          [(ngModel)]="searchQuery"
+          placeholder="Search the carte&hellip;"
+          aria-label="Search the menu"
+        />
+      </div>
+
+      <!-- Promotions — auto-sliding editorial carousel -->
+      <section class="promo" aria-roledescription="carousel" aria-label="Promotions">
+        <div class="promo-viewport">
+          <div
+            class="promo-track"
+            [style.transform]="'translateX(' + (-activePromo * 100) + '%)'"
+          >
+            <article
+              class="promo-slide promo-slide--{{ p.tone }}"
+              *ngFor="let p of promos; let i = index"
+              [class.promo-slide--on]="i === activePromo"
+              [attr.aria-hidden]="i !== activePromo"
+            >
+              <span class="promo-glow" aria-hidden="true"></span>
+              <ion-icon class="promo-icon" [name]="p.icon" aria-hidden="true"></ion-icon>
+              <span class="promo-tag">{{ p.eyebrow }}</span>
+              <h3 class="promo-title">{{ p.title }}</h3>
+              <p class="promo-body">{{ p.body }}</p>
+              <div class="promo-foot">
+                <span class="promo-code" *ngIf="p.code">{{ p.code }}</span>
+                <a class="promo-cta bloom" [routerLink]="p.link" appBloom>
+                  {{ p.cta }}
+                  <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="promo-controls">
+          <button class="promo-arrow" type="button" (click)="prevPromo()" aria-label="Previous promotion">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+          <div class="promo-dots" role="tablist" aria-label="Choose promotion">
+            <button
+              class="promo-dot"
+              type="button"
+              *ngFor="let p of promos; let i = index"
+              [class.promo-dot--on]="i === activePromo"
+              [attr.aria-label]="'Show promotion ' + (i + 1)"
+              [attr.aria-selected]="i === activePromo"
+              (click)="goToPromo(i)"
+            ></button>
+          </div>
+          <button class="promo-arrow" type="button" (click)="nextPromo()" aria-label="Next promotion">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </div>
+      </section>
+
+      <!-- Chef's Table rail -->
+      <section class="rail" *ngIf="showTopSelection">
+        <header class="rail-head">
+          <div class="rail-titles">
+            <p class="kicker">Chef&rsquo;s Table</p>
+            <h2 class="rail-title">Top Selection</h2>
+          </div>
+          <button class="link" type="button" appBloom (click)="toggleFeaturedOnly()">
+            View all
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button>
+        </header>
+
+        <div class="rail-scroll hide-scrollbar">
+          <article
+            class="feature"
+            *ngFor="let item of featuredItems; trackBy: trackByItem"
+            (click)="openDishSheet(item)"
+          >
+            <div class="feature-top">
+              <span class="tag" *ngIf="item.tag">{{ item.tag }}</span>
+              <button
+                class="heart"
+                type="button"
+                aria-label="Save"
+                [class.heart--on]="isFavorite(item.id)"
+                (click)="$event.stopPropagation(); toggleFavorite(item.id)"
+              >
+                <ion-icon [name]="isFavorite(item.id) ? 'heart' : 'heart-outline'"></ion-icon>
+              </button>
+            </div>
+
+            <div class="feature-plate">
+              <span class="feature-emoji">{{ item.emoji }}</span>
+            </div>
+
+            <h3 class="feature-name">{{ item.name }}</h3>
+
+            <div class="feature-meta">
+              <ion-icon name="star" class="star"></ion-icon>
+              <span>{{ item.rating?.toFixed(1) }}</span>
+              <span class="meta-dot">&middot;</span>
+              <span class="meta-cat">{{ item.category }}</span>
+            </div>
+
+            <footer class="feature-foot">
+              <span class="feature-price">{{ formatPrice(item.price) }}</span>
+              <button
+                class="add"
+                type="button"
+                appBloom
+                (click)="$event.stopPropagation(); addToCart(item)"
+              >
+                <ion-icon name="add-outline"></ion-icon>
+                Add
+              </button>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- Featured-only banner -->
+      <div class="featured-banner" *ngIf="featuredOnly">
+        <span class="banner-text">
+          <ion-icon name="sparkles-outline"></ion-icon>
+          Showing the Top Selection
+        </span>
+        <button class="banner-clear" type="button" appBloom (click)="clearFeaturedOnly()">
+          Clear
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Course filters -->
+      <nav class="cats" aria-label="Courses">
+        <button
+          class="cat"
+          type="button"
+          appBloom
+          *ngFor="let category of categories"
+          [class.cat--on]="selectedCategory === category.id"
+          (click)="setCategory(category.id)"
+        >
+          {{ category.label }}
+        </button>
+      </nav>
+
+      <!-- Sort row -->
+      <div class="toolbar-row">
+        <span class="count">
+          {{ filteredItems.length }} {{ filteredItems.length === 1 ? 'dish' : 'dishes' }} on the carte
+        </span>
+        <div class="sort">
+          <label for="sort">Sort</label>
+          <ion-select
+            id="sort"
+            class="sort-select"
+            [value]="sortKey"
+            (ionChange)="setSort($event.detail.value)"
+            interface="popover"
+          >
+            <ion-select-option *ngFor="let option of sortOptions" [value]="option.id">
+              {{ option.label }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty" *ngIf="filteredItems.length === 0">
+        <div class="empty-mark" aria-hidden="true">&#10087;</div>
+        <p class="empty-title">The kitchen is resting</p>
+        <p class="empty-sub">No dishes match your search just yet.</p>
+      </div>
+
+      <!-- The carte, by course -->
+      <section class="carte-section" *ngFor="let sec of sections; trackBy: trackBySection">
+        <header class="section-head">
+          <span class="section-rule"></span>
+          <h2 class="section-title">{{ sec.label }}</h2>
+          <span class="section-rule"></span>
+        </header>
+
+        <div class="carte">
+          <article
+            class="dish"
+            *ngFor="let item of sec.items; let i = index; trackBy: trackByItem"
+            (click)="openDishSheet(item)"
+          >
+            <div class="dish-line">
+              <span class="idx">{{ i + 1 | number: '2.0-0' }}</span>
+              <span class="dish-name">{{ item.name }}</span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="dish-price">{{ formatPrice(item.price) }}</span>
+              <button
+                class="mini-add"
+                type="button"
+                aria-label="Add to table"
+                appBloom
+                (click)="$event.stopPropagation(); addToCart(item)"
+              >
+                <ion-icon name="add-outline"></ion-icon>
+              </button>
+            </div>
+
+            <p class="dish-desc">{{ item.desc }}</p>
+
+            <div class="dish-meta">
+              <button
+                class="heart-sm"
+                type="button"
+                aria-label="Save"
+                [class.heart--on]="isFavorite(item.id)"
+                (click="$event.stopPropagation(); toggleFavorite(item.id)"
+              >
+                <ion-icon [name]="isFavorite(item.id) ? 'heart' : 'heart-outline'"></ion-icon>
+              </button>
+              <span class="rating" *ngIf="item.rating">
+                <ion-icon name="star" class="star"></ion-icon>
+                {{ item.rating.toFixed(1) }}
+              </span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div class="carte-foot" aria-hidden="true">
+        <span>&#10087;</span>
+        <p>Forever &amp; Rose &middot; Est. with love</p>
+        <span>&#10087;</span>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

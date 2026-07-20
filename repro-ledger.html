@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>crud-list repro</title>
+<style>
+:root {
+  --card: #fff;
+  --foreground: oklch(0.24 0.03 25);
+  --muted-foreground: oklch(0.5 0.03 30);
+  --hair: color-mix(in oklch, var(--foreground) 14%, transparent);
+  --rose: oklch(0.62 0.09 20);
+  --gold: oklch(0.78 0.11 80);
+  --gold-ink: color-mix(in oklch, var(--gold) 62%, #3a2a00);
+  --gold-tint: color-mix(in oklch, var(--gold) 16%, transparent);
+  --background: oklch(0.985 0.008 60);
+}
+* { box-sizing: border-box; font-family: system-ui, sans-serif; }
+
+/* ---- copied from crud-list.component.scss ---- */
+.ledger {
+  border: 1px solid var(--hair);
+  border-radius: 18px;
+  overflow: hidden;
+  background: color-mix(in oklch, var(--card) 86%, transparent);
+  box-shadow: 0 16px 40px color-mix(in oklch, var(--foreground) 10%, transparent);
+}
+.ledger-row {
+  display: grid;
+  grid-template-columns: var(--cols);
+  gap: 12px;
+  padding: 13px 18px;
+  align-items: center;
+  border-bottom: 1px solid var(--hair);
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.ledger-row:last-child { border-bottom: none; }
+.ledger-row--head {
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted-foreground);
+  background: color-mix(in oklch, var(--foreground) 4%, transparent);
+}
+.td { font-size: 0.86rem; color: var(--foreground); min-width: 0; }
+.td .txt { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.th--act, .td--act { justify-self: end; }
+.td--act { display: flex; gap: 7px; }
+.money { font-weight: 600; font-size: 1rem; color: var(--gold-ink); }
+.bool { color: var(--muted-foreground); font-size: 1rem; }
+.pill { display: inline-block; padding: 3px 11px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; text-transform: capitalize; }
+.pill--admin { background: color-mix(in oklch, var(--gold) 22%, transparent); color: var(--gold-ink); }
+.pill--moderator { background: color-mix(in oklch, #00c8ff 18%, transparent); color: #0086b3; }
+.pill--customer { background: color-mix(in oklch, var(--foreground) 10%, transparent); color: var(--muted-foreground); }
+.act { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--hair); border-radius: 50%; background: var(--card); color: var(--muted-foreground); }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .ledger-row { animation: none; } }
+
+/* page chrome */
+body { background: var(--background); margin: 0; padding: 24px; }
+.device { max-width: 760px; margin: 0 auto; }
+h3 { font-family: Georgia, serif; }
+</style>
+</head>
+<body>
+<div class="device">
+  <h3>Users</h3>
+  <div class="ledger" style="--cols: repeat(3, minmax(110px, 1fr)) 84px;">
+    <div class="ledger-row ledger-row--head"><span class="th">Name</span><span class="th">Email</span><span class="th">Role</span><span class="th th--act">Actions</span></div>
+    <div class="ledger-row"><span class="td"><span class="txt">Lethabo Suprise</span></span><span class="td"><span class="txt">lethabo.suprise@example.com</span></span><span class="td"><span class="pill pill--admin">admin</span></span><span class="td td--act"><button class="act">E</button><button class="act">D</button></span></div>
+    <div class="ledger-row"><span class="td"><span class="txt">Naledi Khumalo</span></span><span class="td"><span class="txt">naledi.khumalo@example.com</span></span><span class="td"><span class="pill pill--moderator">moderator</span></span><span class="td td--act"><button class="act">E</button><button class="act">D</button></span></div>
+    <div class="ledger-row"><span class="td"><span class="txt">Thabo Mokoena</span></span><span class="td"><span class="txt">thabo.mokoena@example.com</span></span><span class="td"><span class="pill pill--customer">customer</span></span><span class="td td--act"><button class="act">E</button><button class="act">D</button></span></div>
+    <div class="ledger-row"><span class="td"><span class="txt">Sipho Dlamini</span></span><span class="td"><span class="txt">sipho.dlamini@example.com</span></span><span class="td"><span class="pill pill--customer">customer</span></span><span class="td td--act"><button class="act">E</button><button class="act">D</button></span></div>
+  </div>
+
+  <h3>Items (4 cols)</h3>
+  <div class="ledger" style="--cols: repeat(4, minmax(110px, 1fr)) 84px;">
+    <div class="ledger-row ledger-row--head"><span class="th">Name</span><span class="th">Category</span><span class="th">Price</span><span class="th">Featured</span><span class="th th--act">Actions</span></div>
+    <div class="ledger-row"><span class="td"><span class="txt">Rose Latte</span></span><span class="td"><span class="txt">Coffee</span></span><span class="td"><span class="money">R 48.00</span></span><span class="td"><span class="bool">✓</span></span><span class="td td--act"><button class="act">E</button><button class="act">D</button></span></div>
+    <div class="ledger-row"><span class="td"><span class="txt">Cardamom Croissant</span></span><span class="td"><span class="txt">Pastry</span></span><span class="td"><span class="money">R 32.00</span></span><span class="td"><span class="bool">—</span></span><span class="td td--act"><button class="act">E</button><button class="act">D</button></span></div>
+  </div>
+</div>
+</body>
+</html>

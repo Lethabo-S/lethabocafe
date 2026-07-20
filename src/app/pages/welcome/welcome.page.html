@@ -1,0 +1,80 @@
+<ion-content [fullscreen]="true" class="welcome-content">
+  <!-- Drifting gold dust -->
+  <canvas #dust class="dust" aria-hidden="true"></canvas>
+
+  <!-- Atmospheric cream + gold + rose glows -->
+  <div class="welcome-bg" aria-hidden="true"></div>
+
+  <!-- Film grain -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="welcome-inner">
+    <header class="brand">
+      <span class="seal" aria-hidden="true">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <span class="seal-ring"></span>
+        <span class="seal-ring seal-ring--2"></span>
+      </span>
+
+      <p class="signed">Est. with love</p>
+
+      <p class="eyebrow">Lethabo Café &middot; Table service</p>
+
+      <h1 class="wordmark">
+        <span class="wm-word">Forever</span>
+        <span class="wm-amp">&amp;</span>
+        <span class="wm-word">Rose</span>
+      </h1>
+
+      <div class="rule" aria-hidden="true">
+        <span class="rule-line"></span>
+        <span class="diamond">&#9670;</span>
+        <span class="rule-line"></span>
+      </div>
+
+      <p class="lede">
+        A little café, a lot of <em>love</em> — order at your table,
+        tracked till it lands.
+      </p>
+    </header>
+
+    <ul class="feature-row" aria-label="What you can do">
+      <li>
+        <ion-icon name="sparkles-outline" aria-hidden="true"></ion-icon>
+        <span>Browse the carte</span>
+      </li>
+      <li>
+        <ion-icon name="restaurant-outline" aria-hidden="true"></ion-icon>
+        <span>Order at your table</span>
+      </li>
+      <li>
+        <ion-icon name="receipt-outline" aria-hidden="true"></ion-icon>
+        <span>Track every order</span>
+      </li>
+    </ul>
+
+    <div class="actions">
+      <button
+        class="enter"
+        type="button"
+        (click)="onEnter($event)"
+        aria-label="Enter the café"
+      >
+        <span class="enter-glow" aria-hidden="true"></span>
+        <span class="enter-label">Enter the café</span>
+        <ion-icon class="enter-arrow" name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+      </button>
+
+      <a class="signin-link" routerLink="/login">
+        <ion-icon name="log-in-outline" aria-hidden="true"></ion-icon>
+        I already have an account
+      </a>
+    </div>
+
+    <footer class="footnote">
+      <span class="diamond diamond--sm">&#9670;</span>
+      <span>Forever &amp; Rose</span>
+      <span class="diamond diamond--sm">&#9670;</span>
+    </footer>
+  </div>
+</ion-content>

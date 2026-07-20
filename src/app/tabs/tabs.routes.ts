@@ -7,30 +7,57 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'menu',
         loadComponent: () =>
-          import('../tab1/tab1.page').then((m) => m.Tab1Page),
+          import('../tabs/menu/menu.page').then((m) => m.MenuPage),
       },
       {
-        path: 'tab2',
+        path: 'reviews',
         loadComponent: () =>
-          import('../tab2/tab2.page').then((m) => m.Tab2Page),
+          import('../tabs/reviews/reviews.page').then((m) => m.ReviewsTabPage),
       },
       {
-        path: 'tab3',
+        path: 'scan',
         loadComponent: () =>
-          import('../tab3/tab3.page').then((m) => m.Tab3Page),
+          import('../tabs/scan/scan.page').then((m) => m.ScanTabPage),
+      },
+      {
+        path: 'cart',
+        loadComponent: () =>
+          import('../tabs/cart/cart.page').then((m) => m.CartTabPage),
+      },
+      {
+        path: 'me',
+        loadComponent: () =>
+          import('../tabs/me/me.page').then((m) => m.MePage),
+      },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import('../tabs/notifications/notifications.page').then(
+            (m) => m.NotificationsPage,
+          ),
+      },
+      {
+        path: 'offers',
+        loadComponent: () =>
+          import('../tabs/offers/offers.page').then((m) => m.OffersPage),
+      },
+      {
+        path: 'orders',
+        loadComponent: () =>
+          import('../tabs/me/orders/orders.page').then((m) => m.MyOrdersPage),
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/welcome',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/welcome',
     pathMatch: 'full',
   },
 ];

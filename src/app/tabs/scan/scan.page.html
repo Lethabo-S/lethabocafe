@@ -1,0 +1,114 @@
+<ion-header [translucent]="true" class="scan-header">
+  <ion-toolbar>
+    <div class="cover">
+      <span class="cover-seal" aria-hidden="true">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <span class="seal-ring"></span>
+        <span class="seal-ring seal-ring--2"></span>
+      </span>
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <span class="table-badge">Table {{ tableNumber ?? '—' }}</span>
+      <h1 class="cover-title">Scan your table</h1>
+      <p class="cover-sub">Point your camera at the table QR, or enter the code below.</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="scan-content">
+  <div class="scan-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+
+  <div class="scan-inner">
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="loading-seal">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+      <p class="loading-text">Finding your table&hellip;</p>
+    </div>
+
+    <ng-container *ngIf="!isLoading">
+      <!-- Seated status -->
+      <div *ngIf="tableNumber" class="card seated">
+        <ion-icon name="checkmark-circle" class="seated-icon"></ion-icon>
+        <div class="seated-info">
+          <p class="seated-title">Seated at Table {{ tableNumber }}</p>
+          <p class="seated-sub">Orders will be sent to this table.</p>
+        </div>
+        <button class="clear-btn" type="button" (click)="clearTable()">Clear</button>
+      </div>
+
+      <!-- Scanner -->
+      <div class="scanner">
+        <div class="qr-region">
+          <!-- Live camera feed (always mounted so the library can attach) -->
+          <div id="scanner-container" class="scanner-cam"></div>
+
+          <!-- Idle -->
+          <div *ngIf="!scanning && !isScanningComplete" class="scanner-overlay">
+            <ion-icon name="qr-code-outline" class="qr-icon"></ion-icon>
+            <p class="overlay-text">Camera preview appears here</p>
+          </div>
+
+          <!-- Scanning -->
+          <div *ngIf="scanning" class="scanning-indicator">
+            <div class="scanning-line"></div>
+            <div class="scanning-corners">
+              <span class="corner tl"></span>
+              <span class="corner tr"></span>
+              <span class="corner bl"></span>
+              <span class="corner br"></span>
+            </div>
+          </div>
+
+          <!-- Success -->
+          <div *ngIf="isScanningComplete" class="success-overlay">
+            <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
+            <p>Table found!</p>
+          </div>
+        </div>
+
+        <div class="scanner-controls">
+          <button *ngIf="!scanning" class="scan-btn" type="button" appBloom (click)="startScanner()">
+            <ion-icon name="camera-outline"></ion-icon>
+            Start scanner
+          </button>
+          <button *ngIf="scanning" class="scan-btn scan-btn--stop" type="button" appBloom (click)="stopScanner()">
+            <ion-icon name="close-outline"></ion-icon>
+            Stop
+          </button>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="error" class="error-message">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>{{ error }}</span>
+      </div>
+
+      <!-- Manual entry -->
+      <form class="manual-form" (ngSubmit)="submitManual($event)">
+        <p class="manual-label">Or enter code</p>
+        <div class="manual-group">
+          <input
+            class="manual-input"
+            type="text"
+            [(ngModel)]="manualCode"
+            name="manualCode"
+            placeholder="e.g. 12"
+            aria-label="Table code"
+            inputmode="text"
+          />
+          <button class="manual-submit" type="submit" appBloom>Use</button>
+        </div>
+      </form>
+
+      <div class="carte-foot" aria-hidden="true">
+        <span>&#10087;</span>
+        <p>Forever &amp; Rose &middot; Est. with love</p>
+        <span>&#10087;</span>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

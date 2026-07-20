@@ -1,0 +1,110 @@
+<ion-header [translucent]="true" class="nt-header">
+  <ion-toolbar>
+    <div class="cover">
+      <div class="cover-top">
+        <div class="cover-heading">
+          <span class="cover-seal" aria-hidden="true">
+            <ion-icon name="notifications-off-outline" *ngIf="ns.items().length === 0; else hasNotes"></ion-icon>
+            <ng-template #hasNotes><ion-icon name="cafe-outline"></ion-icon></ng-template>
+            <span class="seal-ring"></span>
+            <span class="seal-ring seal-ring--2"></span>
+          </span>
+          <p class="cover-eyebrow">Forever &amp; Rose</p>
+          <h1 class="cover-title">Notifications</h1>
+        </div>
+
+        <div class="cover-actions" *ngIf="ns.items().length > 0">
+          <button
+            type="button"
+            class="ghost-btn"
+            *ngIf="ns.unreadCount() > 0"
+            appBloom
+            (click)="markAllRead()"
+            aria-label="Mark all notifications as read"
+          >
+            <ion-icon name="checkmark-done-outline" aria-hidden="true"></ion-icon>
+            Read all
+          </button>
+          <button
+            type="button"
+            class="clear-btn"
+            appBloom
+            (click)="clearAll()"
+            aria-label="Clear all notifications"
+          >
+            <ion-icon name="trash-outline" aria-hidden="true"></ion-icon>
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <p class="cover-sub" *ngIf="ns.unreadCount() > 0; else allRead">
+        <span class="unread-pill">{{ ns.unreadCount() }} unread</span>
+        Tap a note to mark it read
+      </p>
+      <ng-template #allRead>
+        <p class="cover-sub">You're all caught up</p>
+      </ng-template>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="nt-content">
+  <div class="nt-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+
+  <div class="nt-inner">
+    <ul class="nt-list" *ngIf="ns.items().length > 0; else emptyState">
+      <li
+        *ngFor="let n of ns.items(); let i = index"
+        class="card n-card"
+        [class.unread]="!n.read"
+        [style.animationDelay]="i * 0.04 + 's'"
+        appBloom
+        (click)="markRead(n.id)"
+      >
+        <span class="n-perf" aria-hidden="true"></span>
+        <span class="n-chip" [attr.data-type]="n.type" aria-hidden="true">
+          <ion-icon [name]="iconFor(n.type)"></ion-icon>
+        </span>
+
+        <div class="n-body">
+          <div class="n-row">
+            <p class="n-title">{{ n.title }}</p>
+            <span class="n-time">{{ n.time }}</span>
+          </div>
+          <p class="n-msg">{{ n.message }}</p>
+        </div>
+
+        <button
+          type="button"
+          class="n-del"
+          appBloom
+          (click)="deleteOne(n.id, $event)"
+          [attr.aria-label]="'Delete notification: ' + n.title"
+        >
+          <ion-icon name="trash-outline" aria-hidden="true"></ion-icon>
+        </button>
+
+        <span class="n-dot" *ngIf="!n.read" aria-hidden="true"></span>
+      </li>
+    </ul>
+
+    <ng-template #emptyState>
+      <div class="empty">
+        <span class="empty-seal" aria-hidden="true">
+          <ion-icon name="notifications-off-outline"></ion-icon>
+        </span>
+        <p class="empty-title">All quiet here</p>
+        <p class="empty-sub">When we have news for your table, it'll land here.</p>
+      </div>
+    </ng-template>
+
+    <div class="carte-foot" aria-hidden="true" *ngIf="ns.items().length > 0">
+      <span>&#10087;</span>
+      <p>Forever &amp; Rose &middot; Est. with love</p>
+      <span>&#10087;</span>
+    </div>
+  </div>
+</ion-content>

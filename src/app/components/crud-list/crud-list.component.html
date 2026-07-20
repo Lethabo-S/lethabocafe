@@ -1,0 +1,57 @@
+ <div class="atmos" aria-hidden="true">
+      <div class="atmos-mesh"></div>
+      <div class="atmos-grain"></div>
+    </div>
+
+    <div class="console">
+      <div class="toolbar">
+        <div class="search">
+          <ion-icon name="search-outline" class="search-ico"></ion-icon>
+          <input
+            type="search"
+            [(ngModel)]="search"
+            [placeholder]="'Search ' + entityConfig.title.toLowerCase() + '…'"
+          />
+        </div>
+      </div>
+
+      <div class="state state--load" *ngIf="loading">
+        <div class="seal"><ion-spinner name="crescent"></ion-spinner></div>
+        <p class="state-text">Setting the table…</p>
+      </div>
+
+      <div class="state state--empty" *ngIf="!loading && filtered.length === 0">
+        <div class="empty-mark">&#9670;</div>
+        <h2 class="empty-title">The {{ entityConfig.title.toLowerCase() }} are resting</h2>
+        <p class="empty-sub">No records to show just yet.</p>
+      </div>
+
+      <div class="ledger" *ngIf="!loading && filtered.length > 0" [style.--cols]="colsTemplate">
+        <div class="ledger-row ledger-row--head">
+          <span *ngFor="let col of entityConfig.columns" class="th">{{ col.label }}</span>
+          <span class="th th--act">Actions</span>
+        </div>
+        <div
+          class="ledger-row"
+          *ngFor="let item of filtered; let i = index"
+          [style.animation-delay.ms]="i * 45"
+        >
+          <span *ngFor="let col of entityConfig.columns" class="td">
+            <ng-container [ngSwitch]="col.type">
+              <span *ngSwitchCase="'money'" class="money">{{ item[col.key] | currency: 'ZAR' }}</span>
+              <span *ngSwitchCase="'badge'" class="pill pill--{{ item[col.key] }}">{{ item[col.key] }}</span>
+              <span *ngSwitchCase="'boolean'" class="bool">{{ item[col.key] ? '✓' : '—' }}</span>
+              <span *ngSwitchDefault class="txt">{{ item[col.key] }}</span>
+            </ng-container>
+          </span>
+          <span class="td td--act">
+            <button class="act act--edit" (click)="openForm(item)" aria-label="Edit">
+              <ion-icon name="create-outline"></ion-icon>
+            </button>
+            <button class="act act--del" (click)="remove(item)" aria-label="Delete">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>

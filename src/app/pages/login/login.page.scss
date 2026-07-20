@@ -1,0 +1,6 @@
+@import '../auth-shared.scss';
+
+// Login-specific tweaks (all base styles live in auth-shared.scss)
+.login-content .auth-inner {
+  padding-top: 40px;
+}

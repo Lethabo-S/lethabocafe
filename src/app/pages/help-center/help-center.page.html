@@ -1,0 +1,69 @@
+<ion-header [translucent]="true" class="info-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/me" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Help Centre</h1>
+      <p class="cover-sub">Frequently asked questions</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="info-content">
+  <div class="info-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="info-inner">
+    <div class="diamond-rule" aria-hidden="true"><span>&#9670;</span></div>
+    <div class="faq">
+      <details class="faq-item" open>
+        <summary class="faq-q">
+          <span class="faq-ico"><ion-icon name="restaurant-outline"></ion-icon></span>
+          How do I place an order?
+          <span class="faq-chevron"><ion-icon name="chevron-down"></ion-icon></span>
+        </summary>
+        <div class="faq-a">
+          Browse the <strong>Menu</strong> tab, open an item and tap <strong>Add to cart</strong>,
+          then check out from the <strong>Cart</strong> tab.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="faq-ico"><ion-icon name="qr-code-outline"></ion-icon></span>
+          What is the Scan tab for?
+          <span class="faq-chevron"><ion-icon name="chevron-down"></ion-icon></span>
+        </summary>
+        <div class="faq-a">
+          Scan the QR code on your table to link your order, or scan a loyalty code to collect
+          Rosé Rewards points.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="faq-ico"><ion-icon name="key-outline"></ion-icon></span>
+          I forgot my password
+          <span class="faq-chevron"><ion-icon name="chevron-down"></ion-icon></span>
+        </summary>
+        <div class="faq-a">
+          Use <strong>Reset password</strong> from the sign-in screen to receive a reset link by email.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="faq-ico"><ion-icon name="mail-outline"></ion-icon></span>
+          Contact support
+          <span class="faq-chevron"><ion-icon name="chevron-down"></ion-icon></span>
+        </summary>
+        <div class="faq-a">
+          Email <a href="mailto:support@lethabocafe.example">support&#64;lethabocafe.example</a> and
+          we'll get back to you within a day.
+        </div>
+      </details>
+    </div>
+  </div>
+</ion-content>

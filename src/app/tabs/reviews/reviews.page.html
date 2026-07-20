@@ -1,0 +1,206 @@
+<ion-header [translucent]="true" class="rv-header">
+  <ion-toolbar>
+    <div class="cover">
+      <span class="cover-seal" aria-hidden="true">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <span class="seal-ring"></span>
+        <span class="seal-ring seal-ring--2"></span>
+      </span>
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <span class="table-badge">{{ tableNumber ? 'Table ' + tableNumber : 'No table' }}</span>
+      <h1 class="cover-title">Reviews</h1>
+      <p class="cover-sub">Loved by our diners</p>
+      <div class="cover-rule" aria-hidden="true">
+        <span class="rule-line"></span>
+        <span class="diamond">&#9670;</span>
+        <span class="rule-line"></span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="rv-content">
+  <div class="rv-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+
+  <div class="rv-inner">
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="loading-seal">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+      <p class="loading-text">Gathering the notes&hellip;</p>
+    </div>
+
+    <ng-container *ngIf="!isLoading">
+      <!-- Share a review -->
+      <form (ngSubmit)="submitReview()" class="card form">
+        <p class="card-kicker">Your table</p>
+        <p class="form-title">Share your experience</p>
+
+        <label class="field">
+          <span class="field-label">Dish</span>
+          <ion-select
+            [(ngModel)]="selectedDishId"
+            name="dishId"
+            interface="popover"
+            aria-label="Choose a dish"
+            class="field-select"
+          >
+            <ion-select-option *ngFor="let m of menuItems" [value]="m.id">
+              {{ m.emoji }}&nbsp;&nbsp;{{ m.name }}
+            </ion-select-option>
+          </ion-select>
+        </label>
+
+        <div class="field field--row">
+          <span class="field-label">Rating</span>
+          <div class="stars stars--lg">
+            <button
+              type="button"
+              class="star-btn"
+              *ngFor="let n of stars"
+              (click)="rating = n"
+              [attr.aria-label]="n + ' stars'"
+            >
+              <ion-icon
+                [name]="isFilled(n, rating) ? 'star' : 'star-outline'"
+                [class.star-on]="isFilled(n, rating)"
+              ></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <ion-textarea
+          [(ngModel)]="comment"
+          name="comment"
+          rows="3"
+          placeholder="How was it?"
+          class="field-textarea"
+          aria-label="Your review"
+        ></ion-textarea>
+
+        <button type="submit" class="post-btn" appBloom [disabled]="!comment.trim()">
+          <ion-icon name="create-outline" aria-hidden="true"></ion-icon>
+          Post review
+        </button>
+      </form>
+
+      <!-- Top rated dishes -->
+      <div class="section-head">
+        <span class="section-rule"></span>
+        <h2 class="section-title">
+          <ion-icon name="sparkles-outline" class="section-icon"></ion-icon>
+          Top rated dishes
+        </h2>
+        <span class="section-rule"></span>
+      </div>
+
+      <ul class="top-list">
+        <li *ngFor="let item of topRatedDishes; trackBy: trackByTop" class="top-item">
+          <div class="top-emoji">{{ dishEmoji(item.id) }}</div>
+          <div class="top-info">
+            <p class="top-name">{{ dish(item.id)?.name }}</p>
+            <div class="top-meta">
+              <div class="stars stars--sm">
+                <ion-icon
+                  *ngFor="let n of stars"
+                  [name]="isFilled(n, round(item.avg)) ? 'star' : 'star-outline'"
+                  [class.star-on]="isFilled(n, round(item.avg))"
+                ></ion-icon>
+              </div>
+              <span class="top-stats">
+                {{ item.avg.toFixed(1) }} &middot; {{ item.count }} review{{ item.count > 1 ? 's' : '' }}
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Filter + sort -->
+      <div class="toolbar-row">
+        <h2 class="section-label">
+          {{ filterDish === 'all' ? 'All reviews' : 'Filtered reviews' }}
+        </h2>
+        <span class="count">{{ filteredReviews.length }} shown</span>
+      </div>
+
+      <div class="filter-controls">
+        <ion-select
+          [(ngModel)]="filterDish"
+          name="filterDish"
+          interface="popover"
+          aria-label="Filter by dish"
+          class="pill-select"
+        >
+          <ion-select-option value="all">All dishes</ion-select-option>
+          <ion-select-option *ngFor="let m of menuItems" [value]="m.id">
+            {{ m.emoji }}&nbsp;&nbsp;{{ m.name }}
+          </ion-select-option>
+        </ion-select>
+
+        <ion-select
+          [(ngModel)]="sortBy"
+          name="sortBy"
+          interface="popover"
+          aria-label="Sort reviews"
+          class="pill-select"
+        >
+          <ion-select-option value="newest">Newest first</ion-select-option>
+          <ion-select-option value="highest">Highest rating</ion-select-option>
+          <ion-select-option value="lowest">Lowest rating</ion-select-option>
+        </ion-select>
+      </div>
+
+      <!-- Reviews -->
+      <p *ngIf="filteredReviews.length === 0" class="empty">
+        No reviews match your filters just yet.
+      </p>
+
+      <ul class="review-list">
+        <li *ngFor="let r of filteredReviews; trackBy: trackByReview" class="card review">
+          <div class="review-top">
+            <span class="review-avatar" aria-hidden="true">{{ initials(r.author) }}</span>
+            <div class="review-ident">
+              <p class="review-author">
+                {{ r.author }}
+                <span *ngIf="isOwnReview(r.author)" class="own-tag">you</span>
+              </p>
+              <p class="review-dish">on {{ dishName(r.dishId) }}</p>
+            </div>
+            <div class="stars stars--sm">
+              <ion-icon
+                *ngFor="let n of stars"
+                [name]="isFilled(n, r.rating) ? 'star' : 'star-outline'"
+                [class.star-on]="isFilled(n, r.rating)"
+              ></ion-icon>
+            </div>
+          </div>
+
+          <div class="diamond-rule" aria-hidden="true">
+            <span class="dr-line"></span>
+            <span class="dr-dia">&#9670;</span>
+            <span class="dr-line"></span>
+          </div>
+
+          <p class="review-comment">{{ r.comment }}</p>
+
+          <div class="review-foot">
+            <span class="review-date">{{ formatDate(r.createdAt) }}</span>
+            <button type="button" class="report-btn" appBloom (click)="reportReview(r.id)">
+              <ion-icon name="flag-outline"></ion-icon>
+              Report
+            </button>
+          </div>
+        </li>
+      </ul>
+
+      <div class="carte-foot" aria-hidden="true">
+        <span>&#10087;</span>
+        <p>Forever &amp; Rose &middot; Est. with love</p>
+        <span>&#10087;</span>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

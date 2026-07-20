@@ -1,0 +1,43 @@
+<ion-header [translucent]="true" class="info-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/reviews" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">All reviews</h1>
+      <p class="cover-sub">Loved by our diners</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="info-content">
+  <div class="info-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="info-inner">
+    <div *ngIf="reviews.length === 0" class="ar-empty">
+      <p>No reviews yet.</p>
+    </div>
+
+    <div class="feed">
+      <article class="feed-card" *ngFor="let review of reviews">
+        <div class="feed-avatar">{{ initials(review.author) }}</div>
+        <div class="feed-body">
+          <div class="feed-top">
+            <h2 class="feed-author">{{ review.author }}</h2>
+            <span class="ar-stars">
+              <ion-icon
+                *ngFor="let s of stars"
+                name="star"
+                [class.star--off]="s > review.rating"
+              ></ion-icon>
+            </span>
+          </div>
+          <p class="ar-dish" *ngIf="dishName(review.dishId) as dish">on {{ dish }}</p>
+          <p class="feed-text">{{ review.comment }}</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</ion-content>

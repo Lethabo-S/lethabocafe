@@ -1,0 +1,78 @@
+<ion-header class="sheet-head" translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" class="cancel">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Menu Item</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSubmit()" [disabled]="form.invalid || saving" class="save">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sheet-body">
+  <div class="sheet-atmos" aria-hidden="true"></div>
+
+  <div class="sheet-inner">
+    <p class="eyebrow">item · {{ mode === 'edit' ? 'Edit' : 'New' }}</p>
+    <h2 class="sheet-title">{{ mode === 'edit' ? 'Refine the dish' : 'Compose a new dish' }}</h2>
+    <div class="rule"><span class="diamond"></span></div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sheet-form">
+      <div class="field">
+        <label class="field-label" for="name">Item Name</label>
+        <input class="control" id="name" formControlName="name" placeholder="Caesar Salad" type="text" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="description">Description</label>
+        <textarea class="control control--area" id="description" formControlName="description" placeholder="Fresh greens with dressing" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="price">Price (ZAR)</label>
+        <input class="control" id="price" formControlName="price" placeholder="65.00" type="number" inputmode="decimal" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="category">Category</label>
+        <div class="select-wrap">
+          <select class="control" id="category" formControlName="category">
+            <option value="" disabled selected hidden>Select category</option>
+            <option *ngFor="let opt of categories" [value]="opt.value">{{ opt.label }}</option>
+          </select>
+          <ion-icon name="chevron-down-outline" class="select-ico"></ion-icon>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="emoji">Emoji (optional)</label>
+        <input class="control" id="emoji" formControlName="emoji" placeholder="🥗" type="text" />
+      </div>
+
+      <div class="field">
+        <label class="switch-row">
+          <span>Featured Item</span>
+          <span class="switch">
+            <input type="checkbox" class="switch-input" id="featured" formControlName="featured" />
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="stock">Stock Count</label>
+        <input class="control" id="stock" formControlName="stock" placeholder="Unlimited (leave blank)" type="number" inputmode="decimal" />
+      </div>
+
+      <div class="sheet-foot" *ngIf="isEdit">
+        <button type="button" class="del" (click)="onDelete()">
+          <ion-icon name="trash-outline"></ion-icon>
+          Delete item
+        </button>
+      </div>
+    </form>
+  </div>
+</ion-content>

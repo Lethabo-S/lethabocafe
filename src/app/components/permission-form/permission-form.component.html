@@ -1,0 +1,47 @@
+<ion-header class="sheet-head" translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" class="cancel">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Permission</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSubmit()" [disabled]="form.invalid || saving" class="save">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sheet-body">
+  <div class="sheet-atmos" aria-hidden="true"></div>
+
+  <div class="sheet-inner">
+    <p class="eyebrow">permission · {{ mode === 'edit' ? 'Edit' : 'New' }}</p>
+    <h2 class="sheet-title">{{ mode === 'edit' ? 'Refine the permission' : 'Compose a new permission' }}</h2>
+    <div class="rule"><span class="diamond"></span></div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sheet-form">
+      <div class="field">
+        <label class="field-label" for="name">Permission Name</label>
+        <input class="control" id="name" formControlName="name" placeholder="Manage Menu Items" type="text" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="resource">Resource</label>
+        <input class="control" id="resource" formControlName="resource" placeholder="items" type="text" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="actions">Allowed Actions</label>
+        <textarea class="control control--area" id="actions" formControlName="actions" placeholder="create,read,update,delete" rows="3"></textarea>
+      </div>
+
+      <div class="sheet-foot" *ngIf="isEdit">
+        <button type="button" class="del" (click)="onDelete()">
+          <ion-icon name="trash-outline"></ion-icon>
+          Delete permission
+        </button>
+      </div>
+    </form>
+  </div>
+</ion-content>

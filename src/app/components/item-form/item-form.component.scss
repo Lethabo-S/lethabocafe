@@ -1,0 +1,220 @@
+ @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap');
+
+    :host {
+      --paper: var(--card);
+      --hair: color-mix(in oklch, var(--foreground) 14%, transparent);
+      --ink: var(--foreground);
+      --ink-soft: var(--muted-foreground);
+      --rose: var(--rose);
+      --rose-deep: color-mix(in oklch, var(--rose) 78%, #2a0d0a);
+      --gold: var(--gold);
+      --gold-tint: color-mix(in oklch, var(--gold) 16%, transparent);
+      --gold-ink: color-mix(in oklch, var(--gold) 62%, #3a2a00);
+
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
+
+      display: block;
+      font-family: var(--font-ui);
+    }
+
+    * { box-sizing: border-box; }
+
+    // ---- Header ------------------------------------------------------
+    .sheet-head {
+      --background: color-mix(in oklch, var(--card) 80%, transparent);
+      --border-color: var(--hair);
+      border-bottom: 1px solid var(--hair);
+      backdrop-filter: blur(8px);
+    }
+    .sheet-head ion-title {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: var(--ink);
+    }
+    .cancel, .save {
+      --color: var(--ink-soft);
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+    .save {
+      --color: var(--gold-ink);
+      font-size: 1.2rem;
+    }
+    .save[disabled] { opacity: 0.35; }
+
+    // ---- Body --------------------------------------------------------
+    .sheet-body { --background: var(--background); position: relative; }
+    .sheet-atmos {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(120% 70% at 50% -10%, color-mix(in oklch, var(--gold) 9%, var(--background)) 0%, var(--background) 55%),
+        radial-gradient(90% 60% at 110% 100%, color-mix(in oklch, var(--rose) 14%, transparent) 0%, transparent 60%);
+    }
+    .sheet-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 22px 22px 40px;
+      animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      font-family: var(--font-ui);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold-ink);
+    }
+    .sheet-title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 1.5rem;
+      line-height: 1.05;
+      color: var(--ink);
+    }
+    .rule {
+      position: relative;
+      height: 1px;
+      width: 130px;
+      margin: 14px 0 22px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0.7;
+    }
+    .diamond {
+      position: absolute;
+      top: 50%; right: -3px;
+      transform: translateY(-50%) rotate(45deg);
+      width: 6px; height: 6px;
+      background: var(--gold);
+    }
+
+    // ---- Fields ------------------------------------------------------
+    .sheet-form { display: flex; flex-direction: column; gap: 18px; }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      animation: fieldIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+    .field-label {
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .control {
+      width: 100%;
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--hair);
+      border-radius: 12px;
+      padding: 13px 15px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .control::placeholder { color: var(--ink-soft); }
+    .control:focus {
+      border-color: color-mix(in oklch, var(--gold) 60%, transparent);
+      box-shadow: 0 0 0 4px color-mix(in oklch, var(--gold) 20%, transparent);
+    }
+    .control--area { resize: vertical; min-height: 84px; line-height: 1.5; }
+
+    .select-wrap { position: relative; }
+    .select-wrap select { appearance: none; -webkit-appearance: none; padding-right: 40px; cursor: pointer; }
+    .select-ico {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: var(--gold-ink);
+      pointer-events: none;
+    }
+
+    // Toggle switch
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 15px;
+      background: var(--paper);
+      border: 1px solid var(--hair);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .switch { position: relative; display: inline-flex; flex-shrink: 0; }
+    .switch-input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+    .switch-track {
+      width: 46px; height: 26px;
+      border-radius: 999px;
+      background: color-mix(in oklch, var(--foreground) 16%, transparent);
+      transition: background 0.25s;
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+    }
+    .switch-thumb {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      transition: transform 0.25s;
+    }
+    .switch-input:checked ~ .switch-track {
+      background: linear-gradient(135deg, var(--rose-deep), var(--rose));
+    }
+    .switch-input:checked ~ .switch-track .switch-thumb { transform: translateX(20px); }
+
+    .field-err { margin: 0; font-size: 0.74rem; color: var(--rose-deep); font-weight: 600; }
+
+    // ---- Footer / delete --------------------------------------------
+    .sheet-foot { margin-top: 8px; }
+    .del {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px;
+      border-radius: 12px;
+      border: 1px solid color-mix(in oklch, var(--rose) 40%, transparent);
+      background: color-mix(in oklch, var(--rose) 10%, transparent);
+      color: var(--rose-deepest, var(--rose-deep));
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .del ion-icon { font-size: 17px; }
+    .del:hover { background: color-mix(in oklch, var(--rose) 18%, transparent); }
+    .del:active { transform: scale(0.98); }
+
+    // ---- Motion ------------------------------------------------------
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fieldIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sheet-inner, .field { animation: none; }
+    }

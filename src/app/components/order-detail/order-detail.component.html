@@ -1,0 +1,67 @@
+<div class="od-sheet">
+  <header class="od-head">
+    <span class="od-seal" aria-hidden="true">
+      <ion-icon name="cafe-outline"></ion-icon>
+      <span class="od-seal-ring"></span>
+      <span class="od-seal-ring od-seal-ring--2"></span>
+    </span>
+
+    <div class="od-head-main">
+      <span class="od-brand">Forever &amp; Rose</span>
+      <p class="od-eyebrow">Order</p>
+      <h2 class="od-id">{{ detail.id }}</h2>
+    </div>
+
+    <button type="button" class="od-close" aria-label="Close" appBloom (click)="close()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+  </header>
+
+  <!-- Status progress -->
+  <ol class="od-steps" aria-label="Order status">
+    <li
+      *ngFor="let step of steps; let i = index"
+      class="od-step"
+      [class.od-step--done]="stepState(step) === 'done'"
+      [class.od-step--current]="stepState(step) === 'current'"
+    >
+      <span class="od-dot">
+        <ion-icon *ngIf="stepState(step) === 'done'" name="checkmark-done-outline"></ion-icon>
+      </span>
+      <span class="od-step-label">{{ stepState(step) === 'current' ? (step | titlecase) : (step === 'preparing' ? 'Preparing' : (step | titlecase)) }}</span>
+      <span class="od-bar" *ngIf="i < steps.length - 1"></span>
+    </li>
+  </ol>
+
+  <div class="od-meta">
+    <span class="od-badge od-badge--{{ detail.status }}">{{ detail.status === 'preparing' ? 'Preparing' : (detail.status | titlecase) }}</span>
+    <span *ngIf="detail.paymentMethod" class="od-pay od-pay--{{ detail.paymentMethod }}">
+      <ion-icon [name]="payIcon(detail.paymentMethod)"></ion-icon>
+      {{ paymentLabels[detail.paymentMethod] }}
+    </span>
+  </div>
+
+  <p class="od-where">
+    <ion-icon name="restaurant-outline"></ion-icon>
+    {{ detail.tableNumber ? 'Table ' + detail.tableNumber : 'Takeaway' }}
+    <span class="od-dot-sep">·</span>
+    <ion-icon name="time-outline"></ion-icon>
+    {{ detail.createdAt | date: 'medium' }}
+  </p>
+
+  <!-- Items -->
+  <ul class="od-items">
+    <li *ngFor="let item of detail.items" class="od-item">
+      <span class="od-emoji">{{ item.emoji }}</span>
+      <span class="od-name">{{ item.name }}</span>
+      <span class="od-leader" aria-hidden="true"></span>
+      <span class="od-qty">× {{ item.qty }}</span>
+      <span class="od-line">{{ formatMoney(lineTotal(item)) }}</span>
+    </li>
+  </ul>
+
+  <div class="od-foot">
+    <span class="od-foot-label">Total</span>
+    <span class="od-total">{{ formatMoney(detail.total) }}</span>
+  </div>
+</div>

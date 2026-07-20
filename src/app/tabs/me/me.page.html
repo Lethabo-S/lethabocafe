@@ -1,0 +1,144 @@
+<ion-header [translucent]="true" class="me-header">
+  <ion-toolbar>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">My Account</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="me-content">
+  <div class="me-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+
+  <div class="me-inner" *ngIf="cafeService.profile$ | async as profile; else loggedOut">
+    <!-- Profile hero -->
+    <section class="hero">
+      <span class="seal" aria-hidden="true">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <span class="seal-ring"></span>
+        <span class="seal-ring seal-ring--2"></span>
+      </span>
+      <p class="signed">Est. with love</p>
+      <h1 class="hero-greeting">Hello, {{ profile.name }}</h1>
+      <p class="hero-sub">Your little corner of the café.</p>
+      <div class="rule" aria-hidden="true">
+        <span class="rule-line"></span>
+        <span class="diamond">&#9670;</span>
+        <span class="rule-line"></span>
+      </div>
+    </section>
+
+    <!-- Profile identity -->
+    <section class="profile-card">
+      <div class="avatar" [class.has-photo]="!!profile.avatar">
+        <img *ngIf="profile.avatar" [src]="profile.avatar" [alt]="profile.name" />
+        <span *ngIf="!profile.avatar" class="avatar-initials">{{ getInitials(profile.name) }}</span>
+      </div>
+      <div class="profile-meta">
+        <h2 class="profile-name">{{ profile.name }}</h2>
+        <p class="profile-email">{{ profile.email }}</p>
+        <span class="role-chip" [class.role-chip--admin]="profile.role === 'admin'">
+          <ion-icon name="ribbon-outline"></ion-icon>
+          {{ roleLabel(profile.role) }}
+        </span>
+      </div>
+      <a class="edit-btn" routerLink="/profile" appBloom aria-label="Edit profile">
+        <ion-icon name="create-outline"></ion-icon>
+      </a>
+    </section>
+
+    <!-- Loyalty / rewards -->
+    <section class="rewards-card">
+      <div class="rewards-sheen" aria-hidden="true"></div>
+      <div class="rewards-top">
+        <div>
+          <p class="rewards-eyebrow">Rosé Rewards</p>
+          <p class="rewards-points">
+            {{ points }} <span>pts</span>
+          </p>
+        </div>
+        <div class="rewards-badge">
+          <ion-icon name="cafe-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="progress-track" role="progressbar" aria-label="Rosé Rewards progress to next tier" [attr.aria-valuenow]="tierProgress" aria-valuemin="0" aria-valuemax="100">
+        <span class="progress-fill" [style.width.%]="tierProgress"></span>
+      </div>
+      <p class="rewards-note">
+        {{ pointsToNextTier }} pts to your next free coffee
+      </p>
+    </section>
+
+    <!-- Account link groups -->
+    <section class="link-group" *ngFor="let group of groups">
+      <p class="group-title">{{ group.title }}</p>
+      <div class="link-list">
+        <a class="link-row" *ngFor="let link of group.links" [routerLink]="link.url" appBloom>
+          <span class="link-ico"><ion-icon [name]="link.icon"></ion-icon></span>
+          <span class="link-label">{{ link.label }}</span>
+          <ion-icon class="link-chevron" name="chevron-forward"></ion-icon>
+        </a>
+      </div>
+    </section>
+
+    <!-- Admin (only for staff) -->
+    <section class="link-group" *ngIf="profile.role === 'admin' || profile.role === 'moderator'">
+      <p class="group-title">Staff</p>
+      <div class="link-list">
+        <a class="link-row link-row--admin" routerLink="/admin-dashboard" appBloom>
+          <span class="link-ico"><ion-icon name="shield-checkmark-outline"></ion-icon></span>
+          <span class="link-label">Admin dashboard</span>
+          <ion-icon class="link-chevron" name="chevron-forward"></ion-icon>
+        </a>
+      </div>
+    </section>
+
+    <!-- Sign out -->
+    <button type="button" class="logout-btn bloom" appBloom (click)="logout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+      Sign out
+    </button>
+
+    <p class="version-note">Forever &amp; Rose · Lethabo Café</p>
+  </div>
+
+  <!-- Signed-out gate: discoverable sign-in / account creation -->
+  <ng-template #loggedOut>
+    <div class="me-inner gate">
+      <section class="hero">
+        <span class="seal" aria-hidden="true">
+          <ion-icon name="cafe-outline"></ion-icon>
+          <span class="seal-ring"></span>
+          <span class="seal-ring seal-ring--2"></span>
+        </span>
+        <p class="signed">Forever &amp; Rose</p>
+        <h1 class="hero-greeting">Welcome</h1>
+        <p class="hero-sub">Sign in to savour your rewards, orders &amp; favourites.</p>
+        <div class="rule" aria-hidden="true">
+          <span class="rule-line"></span>
+          <span class="diamond">&#9670;</span>
+          <span class="rule-line"></span>
+        </div>
+      </section>
+
+      <div class="gate-actions">
+        <a class="gate-btn gate-btn--primary bloom" routerLink="/login" appBloom>
+          <ion-icon name="log-in-outline"></ion-icon>
+          Sign in
+        </a>
+        <a class="gate-btn gate-btn--ghost bloom" routerLink="/create-account" appBloom>
+          <ion-icon name="person-add-outline"></ion-icon>
+          Create an account
+        </a>
+      </div>
+
+      <p class="gate-note">
+        You can still browse the carte as a guest.
+        <a class="gate-link" routerLink="/tabs/menu" appBloom>Browse the menu</a>
+      </p>
+    </div>
+  </ng-template>
+</ion-content>

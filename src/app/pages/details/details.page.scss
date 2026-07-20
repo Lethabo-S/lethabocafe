@@ -1,0 +1,458 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap');
+@import '../info-shared.scss';
+
+:host {
+  --paper: var(--card);
+  --hair: color-mix(in oklch, var(--foreground) 13%, transparent);
+  --ink: var(--foreground);
+  --ink-soft: var(--muted-foreground);
+  --rose: var(--rose);
+  --rose-tint: color-mix(in oklch, var(--rose) 13%, transparent);
+  --rose-deep: color-mix(in oklch, var(--rose) 78%, #2a0d0a);
+  --gold-ink: var(--gold);
+  --gold-tint: color-mix(in oklch, var(--gold) 16%, transparent);
+  --gold-soft: color-mix(in oklch, var(--gold) 32%, transparent);
+  --shadow-soft: 0 2px 16px rgba(61, 10, 5, 0.07);
+  --shadow-btn: 0 14px 34px color-mix(in oklch, var(--rose) 46%, transparent);
+
+  --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
+  --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-script: 'Caveat', 'Segoe Script', cursive;
+}
+
+* {
+  font-family: var(--font-ui);
+  box-sizing: border-box;
+}
+
+ion-content.detail-content {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+.detail-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 8px 22px 40px;
+  text-align: center;
+}
+
+// ------------------------------------------------------------
+//  Cover header — the wordmark
+// ------------------------------------------------------------
+.cover-brand {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.32em;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(2.1rem, 9vw, 2.9rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.cover-word {
+  font-style: normal;
+}
+
+.cover-amp {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--gold-ink);
+  font-size: 0.92em;
+  transform: translateY(-0.04em);
+}
+
+.cover-brand::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 38%,
+    color-mix(in oklch, var(--gold) 55%, white) 50%,
+    transparent 62%
+  );
+  transform: translateX(-130%);
+  animation: sheen 1.7s ease 0.35s 1;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.cover-rule {
+  position: relative;
+  height: 1px;
+  width: min(60%, 260px);
+  margin: 14px auto 12px;
+  background: linear-gradient(90deg, transparent, var(--gold-ink), transparent);
+  opacity: 0.7;
+}
+
+.cover-diamond {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 7px;
+  height: 7px;
+  background: var(--gold-ink);
+  box-shadow: 0 0 0 4px var(--background);
+}
+
+.cover-sub {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+}
+
+// ------------------------------------------------------------
+//  Concentric plated hero
+// ------------------------------------------------------------
+.plate {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  margin: 12px auto 18px;
+  display: grid;
+  place-items: center;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.plate-ring {
+  position: absolute;
+  border-radius: 50%;
+  inset: 0;
+
+  &--outer {
+    border: 1px solid color-mix(in oklch, var(--gold) 45%, transparent);
+    animation: spin 26s linear infinite;
+    border-style: dotted;
+  }
+
+  &--mid {
+    inset: 14px;
+    border: 1px solid color-mix(in oklch, var(--rose) 30%, transparent);
+  }
+
+  &--inner {
+    inset: 24px;
+    border: 1px solid var(--hair);
+    background: radial-gradient(circle at 32% 28%, var(--rose-tint), var(--paper) 74%);
+    box-shadow: inset 0 6px 18px color-mix(in oklch, var(--rose) 14%, transparent);
+  }
+}
+
+.plate-emoji {
+  font-size: 3.8rem;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 6px 12px color-mix(in oklch, var(--rose) 26%, transparent));
+}
+
+.kicker {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--gold) 70%, #3a2a00);
+  background: var(--gold-tint);
+  border: 1px solid color-mix(in oklch, var(--gold) 35%, transparent);
+  padding: 4px 11px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s both;
+}
+
+.name {
+  margin: 0 0 10px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.85rem;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.08s both;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s both;
+
+  .star {
+    color: var(--gold-ink);
+    font-size: 15px;
+  }
+
+  .rating-dot {
+    opacity: 0.6;
+  }
+
+  .rating-cat {
+    text-transform: capitalize;
+  }
+}
+
+.desc {
+  margin: 0 auto 20px;
+  max-width: 34ch;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.12s both;
+}
+
+// ------------------------------------------------------------
+//  Scrolling notes ribbon
+// ------------------------------------------------------------
+.notes {
+  overflow: hidden;
+  margin: 0 -22px 20px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.16s both;
+}
+
+.notes-track {
+  display: inline-flex;
+  gap: 8px;
+  padding: 0 4px;
+  white-space: nowrap;
+  animation: marquee 16s linear infinite;
+}
+
+.note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--paper) 70%, transparent);
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.rule {
+  position: relative;
+  height: 1px;
+  width: 70%;
+  margin: 0 auto 20px;
+  background: linear-gradient(90deg, transparent, var(--gold-ink), transparent);
+  opacity: 0.7;
+
+  .diamond {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 6px;
+    height: 6px;
+    background: var(--gold-ink);
+    box-shadow: 0 0 0 5px var(--paper);
+  }
+}
+
+// ------------------------------------------------------------
+//  Nutrition
+// ------------------------------------------------------------
+.detail-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin: 22px 4px 10px;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: var(--ink);
+
+  span {
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+}
+
+.nut-list {
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 22px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.14s both;
+}
+
+.nut-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--hair);
+  &:last-child { border-bottom: none; }
+}
+
+.nut-label { font-size: 0.9rem; color: var(--ink); }
+.nut-value { font-family: var(--font-serif); font-weight: 600; font-size: 0.9rem; color: var(--gold-ink); }
+
+// ------------------------------------------------------------
+//  Sticky rose "Add to table" bar
+// ------------------------------------------------------------
+.foot {
+  position: sticky;
+  bottom: 0;
+  margin: 0 -22px;
+  padding: 16px 22px calc(20px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, transparent, var(--paper) 26%);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--hair);
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+}
+
+.leader-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.leader-label {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.leader-dots {
+  flex: 1;
+  border-bottom: 2px dotted color-mix(in oklch, var(--foreground) 22%, transparent);
+  transform: translateY(-3px);
+}
+
+.leader-price {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--gold-ink);
+}
+
+.add {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 15px 22px;
+  background: linear-gradient(135deg, var(--rose-deep), color-mix(in oklch, var(--rose) 62%, #5a1410));
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.96rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: transform 0.18s, filter 0.2s;
+
+  ion-icon {
+    font-size: 19px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(60% 120% at 50% 120%, color-mix(in oklch, var(--gold) 55%, transparent), transparent 70%);
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+
+  &:active {
+    transform: scale(0.975);
+  }
+
+  &:active::before {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+// ------------------------------------------------------------
+//  Animations
+// ------------------------------------------------------------
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sheen {
+  to { transform: translateX(130%); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --rose-deep: color-mix(in oklch, var(--rose) 70%, white);
+    --gold-ink: oklch(0.86 0.13 88);
+  }
+
+  .plate-ring--inner {
+    background: radial-gradient(circle at 32% 28%, color-mix(in oklch, var(--rose) 26%, var(--card)), var(--card) 74%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-brand, .plate, .kicker, .name, .rating, .desc, .notes, .nut-list, .foot { animation: none; }
+  .notes-track { animation: none; }
+  .plate-ring--outer { animation: none; }
+  .cover-brand::after { animation: none; }
+  .add:active::before { opacity: 1; transform: scale(1); }
+}

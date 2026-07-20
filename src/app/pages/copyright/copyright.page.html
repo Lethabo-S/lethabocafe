@@ -1,0 +1,72 @@
+<ion-header [translucent]="true" class="info-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/me" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Copyright &amp; IP</h1>
+      <p class="cover-sub">Respecting creative work</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="info-content">
+  <div class="info-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="info-inner">
+    <div class="diamond-rule" aria-hidden="true"><span>&#9670;</span></div>
+    <div class="prose">
+      <p class="lead">
+        Forever &amp; Rose Café respects intellectual property rights and expects the same from
+        users of this app.
+      </p>
+
+      <h2><ion-icon name="cafe-outline"></ion-icon> Café content</h2>
+      <p>
+        All menu photography, branding, and copy is owned by Forever &amp; Rose Café. Do not reuse
+        without written permission.
+      </p>
+      <div class="callout callout--info">
+        <ion-icon name="information-circle"></ion-icon>
+        <span>Our menu photos and descriptions are professionally created and protected under copyright law.</span>
+      </div>
+
+      <h2><ion-icon name="people-outline"></ion-icon> User content</h2>
+      <p>By posting a review or image, you confirm that you own the rights or have permission to share it.</p>
+      <ul class="legal-list">
+        <li><ion-icon class="ok" name="checkmark-circle"></ion-icon><span>You retain ownership of your content</span></li>
+        <li><ion-icon class="ok" name="checkmark-circle"></ion-icon><span>You grant us a licence to display it in the app</span></li>
+        <li><ion-icon class="no" name="close-circle"></ion-icon><span>Don't share content you don't own</span></li>
+      </ul>
+
+      <h2><ion-icon name="flag-outline"></ion-icon> Reporting infringement</h2>
+      <p>
+        If you believe content in the app infringes your copyright, contact us via the Help Centre
+        with the following:
+      </p>
+      <ul class="step-list">
+        <li class="step-row"><span class="step-ico">1</span><span>The location of the infringing content</span></li>
+        <li class="step-row"><span class="step-ico">2</span><span>A description of the original copyrighted work</span></li>
+        <li class="step-row"><span class="step-ico">3</span><span>Your contact details (name, email, phone)</span></li>
+        <li class="step-row"><span class="step-ico">4</span><span>A statement of good-faith belief</span></li>
+      </ul>
+      <p>Verified claims are removed promptly, within 24–48 hours of confirmation.</p>
+
+      <h2><ion-icon name="ban-outline"></ion-icon> Repeat infringers</h2>
+      <p>Accounts that repeatedly post infringing content will be suspended or permanently banned.</p>
+      <div class="callout callout--warn">
+        <ion-icon name="warning"></ion-icon>
+        <span>Multiple copyright violations may result in permanent account termination.</span>
+      </div>
+
+      <a class="info-btn" appBloom routerLink="/help-center">
+        <ion-icon name="mail-outline"></ion-icon>
+        Contact us via the Help Centre
+      </a>
+
+      <p class="last-updated">Last updated · July 2026</p>
+    </div>
+  </div>
+</ion-content>

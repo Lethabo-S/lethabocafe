@@ -1,0 +1,86 @@
+ <ion-header class="sheet-head" translucent>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="dismiss()" class="cancel">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>{{ entityConfig.title }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onSubmit()" [disabled]="form.invalid || saving" class="save">
+            <ion-icon name="checkmark-done-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="sheet-body">
+      <div class="sheet-atmos" aria-hidden="true"></div>
+
+      <div class="sheet-inner">
+        <p class="eyebrow">{{ entityConfig.singular }} · {{ mode === 'edit' ? 'Edit' : 'New' }}</p>
+        <h2 class="sheet-title">{{ mode === 'edit' ? 'Refine the record' : 'Compose a new entry' }}</h2>
+        <div class="rule"><span class="diamond"></span></div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sheet-form">
+          <div
+            class="field"
+            *ngFor="let field of fields; let i = index"
+            [style.animation-delay.ms]="i * 55"
+          >
+            <label class="field-label" [attr.for]="field.name">{{ field.label }}</label>
+
+            <ng-container [ngSwitch]="field.type">
+              <input
+                *ngSwitchCase="'text'"
+                class="control" [id]="field.name" [formControlName]="field.name"
+                [placeholder]="field.placeholder" [type]="field.inputType ?? 'text'"
+              />
+              <input
+                *ngSwitchCase="'email'"
+                class="control" [id]="field.name" [formControlName]="field.name"
+                [placeholder]="field.placeholder" type="email"
+              />
+              <input
+                *ngSwitchCase="'password'"
+                class="control" [id]="field.name" [formControlName]="field.name"
+                [placeholder]="field.placeholder" type="password"
+              />
+              <input
+                *ngSwitchCase="'number'"
+                class="control" [id]="field.name" [formControlName]="field.name"
+                [placeholder]="field.placeholder" type="number" inputmode="decimal"
+              />
+              <textarea
+                *ngSwitchCase="'textarea'"
+                class="control control--area" [id]="field.name" [formControlName]="field.name"
+                [placeholder]="field.placeholder" rows="3"
+              ></textarea>
+              <div *ngSwitchCase="'select'" class="select-wrap">
+                <select class="control" [id]="field.name" [formControlName]="field.name">
+                  <option value="" disabled selected hidden>{{ field.placeholder || 'Select…' }}</option>
+                  <option *ngFor="let opt of field.options" [value]="opt.value">{{ opt.label }}</option>
+                </select>
+                <ion-icon name="chevron-down-outline" class="select-ico"></ion-icon>
+              </div>
+              <label *ngSwitchCase="'toggle'" class="switch-row">
+                <span>{{ field.placeholder || 'Enabled' }}</span>
+                <span class="switch">
+                  <input type="checkbox" class="switch-input" [id]="field.name" [formControlName]="field.name" />
+                  <span class="switch-track"><span class="switch-thumb"></span></span>
+                </span>
+              </label>
+            </ng-container>
+
+            <p class="field-err" *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched">
+              This field is required.
+            </p>
+          </div>
+
+          <div class="sheet-foot" *ngIf="isEdit">
+            <button type="button" class="del" (click)="onDelete()">
+              <ion-icon name="trash-outline"></ion-icon>
+              Delete {{ entityConfig.singular }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </ion-content>

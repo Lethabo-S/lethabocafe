@@ -1,0 +1,47 @@
+<ion-header class="sheet-head" translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" class="cancel">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Customer</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSubmit()" [disabled]="form.invalid || saving" class="save">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sheet-body">
+  <div class="sheet-atmos" aria-hidden="true"></div>
+
+  <div class="sheet-inner">
+    <p class="eyebrow">customer · {{ mode === 'edit' ? 'Edit' : 'New' }}</p>
+    <h2 class="sheet-title">{{ mode === 'edit' ? 'Refine the guest' : 'Compose a new guest' }}</h2>
+    <div class="rule"><span class="diamond"></span></div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sheet-form">
+      <div class="field">
+        <label class="field-label" for="name">Full Name</label>
+        <input class="control" id="name" formControlName="name" placeholder="Jane Smith" type="text" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="email">Email</label>
+        <input class="control" id="email" formControlName="email" placeholder="jane@example.com" type="email" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="phone">Phone</label>
+        <input class="control" id="phone" formControlName="phone" placeholder="+27 82 123 4567" type="text" />
+      </div>
+
+      <div class="sheet-foot" *ngIf="isEdit">
+        <button type="button" class="del" (click)="onDelete()">
+          <ion-icon name="trash-outline"></ion-icon>
+          Delete customer
+        </button>
+      </div>
+    </form>
+  </div>
+</ion-content>

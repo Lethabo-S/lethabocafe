@@ -1,0 +1,53 @@
+<ion-header class="sheet-head" translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" class="cancel">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>User</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSubmit()" [disabled]="form.invalid || saving" class="save">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sheet-body">
+  <div class="sheet-atmos" aria-hidden="true"></div>
+
+  <div class="sheet-inner">
+    <p class="eyebrow">user · {{ mode === 'edit' ? 'Edit' : 'New' }}</p>
+    <h2 class="sheet-title">{{ mode === 'edit' ? 'Refine the user' : 'Compose a new user' }}</h2>
+    <div class="rule"><span class="diamond"></span></div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sheet-form">
+      <div class="field">
+        <label class="field-label" for="name">Full Name</label>
+        <input class="control" id="name" formControlName="name" placeholder="John Doe" type="text" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="email">Email</label>
+        <input class="control" id="email" formControlName="email" placeholder="john@example.com" type="email" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="role">Role</label>
+        <div class="select-wrap">
+          <select class="control" id="role" formControlName="role">
+            <option value="" disabled selected hidden>Select role</option>
+            <option *ngFor="let opt of roles" [value]="opt.value">{{ opt.label }}</option>
+          </select>
+          <ion-icon name="chevron-down-outline" class="select-ico"></ion-icon>
+        </div>
+      </div>
+
+      <div class="sheet-foot" *ngIf="isEdit">
+        <button type="button" class="del" (click)="onDelete()">
+          <ion-icon name="trash-outline"></ion-icon>
+          Delete user
+        </button>
+      </div>
+    </form>
+  </div>
+</ion-content>

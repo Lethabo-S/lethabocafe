@@ -1,0 +1,65 @@
+<ion-header [translucent]="true" class="admin-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin-dashboard" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Reviews</h1>
+      <p class="cover-sub">Moderate what guests say</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-content">
+  <div class="admin-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="admin-inner">
+    <div class="diamond-rule" aria-hidden="true">
+      <span class="rule-line"></span>
+      <span class="diamond">&#9670;</span>
+      <span class="rule-line"></span>
+    </div>
+
+    <div *ngIf="reviews.length === 0" class="empty">
+      <div class="empty-ico"><ion-icon name="checkmark-done-outline"></ion-icon></div>
+      <h2>All caught up</h2>
+      <p>No reviews to moderate.</p>
+    </div>
+
+    <article class="admin-card" *ngFor="let review of reviews" [class.is-hidden]="review.hidden">
+      <div class="review-head">
+        <div class="review-avatar">{{ initials(review.author) }}</div>
+        <div>
+          <h2 class="review-name">{{ review.author }}</h2>
+          <p class="review-dish" *ngIf="dishName(review.dishId) as dish">
+            on {{ dish }}
+          </p>
+        </div>
+        <span class="stars">
+          <ion-icon
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            name="star"
+            [class.star--off]="star > review.rating"
+          ></ion-icon>
+        </span>
+      </div>
+
+      <p class="review-text">{{ review.comment }}</p>
+
+      <span class="badge" *ngIf="review.hidden" [class.badge--hidden]="true">Hidden</span>
+
+      <div class="card-actions">
+        <button type="button" class="btn btn--ghost" appBloom (click)="toggleHidden(review)">
+          <ion-icon [name]="review.hidden ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+          {{ review.hidden ? 'Show' : 'Hide' }}
+        </button>
+        <button type="button" class="btn btn--danger" appBloom (click)="remove(review)">
+          <ion-icon name="trash-outline"></ion-icon>
+          Delete
+        </button>
+      </div>
+    </article>
+  </div>
+</ion-content>

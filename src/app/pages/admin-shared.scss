@@ -1,0 +1,632 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap');
+
+// --------------------------------------------------------------
+//  Shared "Forever & Rose" admin console styles
+//  Imported by admin-dashboard / admin-reviews / admin-flags
+// --------------------------------------------------------------
+:host {
+  --paper: var(--card);
+  --hair: color-mix(in oklch, var(--foreground) 13%, transparent);
+  --ink: var(--foreground);
+  --ink-soft: var(--muted-foreground);
+  --rose: var(--rose);
+  --rose-tint: color-mix(in oklch, var(--rose) 13%, transparent);
+  --rose-deep: color-mix(in oklch, var(--rose) 78%, #2a0d0a);
+  --gold-ink: var(--gold);
+  --gold-tint: color-mix(in oklch, var(--gold) 16%, transparent);
+  --gold-soft: color-mix(in oklch, var(--gold) 32%, transparent);
+  --ok: oklch(0.62 0.13 155);
+  --ok-tint: color-mix(in oklch, oklch(0.62 0.13 155) 14%, transparent);
+  --warn: var(--gold);
+  --shadow-soft: 0 2px 16px rgba(61, 10, 5, 0.07);
+  --shadow-lift: 0 12px 30px rgba(61, 10, 5, 0.12);
+  --shadow-med: 0 16px 40px rgba(61, 10, 5, 0.13);
+  --shadow-btn: 0 14px 34px color-mix(in oklch, var(--rose) 46%, transparent);
+
+  --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
+  --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-script: 'Caveat', 'Segoe Script', cursive;
+}
+
+* {
+  font-family: var(--font-ui);
+  box-sizing: border-box;
+}
+
+ion-content.admin-content {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+// Atmosphere
+.admin-bg,
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.admin-bg {
+  background:
+    radial-gradient(120% 70% at 50% -12%, color-mix(in oklch, var(--gold) 11%, var(--background)) 0%, var(--background) 50%),
+    radial-gradient(90% 60% at 108% 102%, var(--rose-tint) 0%, transparent 58%),
+    radial-gradient(80% 55% at -8% 88%, color-mix(in oklch, var(--gold) 9%, transparent) 0%, transparent 60%);
+}
+
+.grain {
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.admin-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4px 18px 52px;
+}
+
+// Diamond rule — thin gradient line with a ◆ centred
+.diamond-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 6px auto 2px;
+  max-width: 220px;
+
+  .rule-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  }
+
+  .diamond {
+    color: var(--rose-deep);
+    font-size: 0.7rem;
+    line-height: 1;
+    filter: drop-shadow(0 1px 4px color-mix(in oklch, var(--rose) 40%, transparent));
+  }
+}
+
+// Header cover
+.admin-header ion-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+  --min-height: auto;
+  padding-top: 8px;
+  position: relative;
+}
+
+.admin-header ion-back-button {
+  --color: var(--ink);
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  z-index: 2;
+}
+
+.cover {
+  text-align: center;
+  padding: 14px 48px 12px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.cover-eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.cover-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 7vw, 2.3rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.cover-sub {
+  margin: 8px auto 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.header-action {
+  position: absolute;
+  right: 4px;
+  top: 8px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--rose-deep);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.18s;
+
+  ion-icon { font-size: 19px; }
+  &:hover { background: var(--rose-tint); }
+  &:active { transform: scale(0.94); }
+}
+
+// ------------------------------------------------------------
+//  Stat tiles
+// ------------------------------------------------------------
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 8px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.04s both;
+}
+
+.stat-tile {
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+
+  .stat-ico {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--rose-tint);
+    color: var(--rose-deep);
+    ion-icon { font-size: 17px; }
+  }
+
+  .stat-value {
+    margin: 4px 0 0;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 1.9rem;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .stat-label {
+    margin: 8px 0 0;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  &--gold .stat-ico { background: var(--gold-tint); color: color-mix(in oklch, var(--gold) 68%, #3a2a00); }
+  &--gold .stat-value { color: color-mix(in oklch, var(--gold) 64%, #3a2a00); }
+  &--warn .stat-ico { background: color-mix(in oklch, var(--destructive) 12%, transparent); color: var(--destructive); }
+}
+
+// ------------------------------------------------------------
+//  Section titles
+// ------------------------------------------------------------
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 26px 4px 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid color-mix(in oklch, var(--rose) 22%, var(--hair));
+}
+
+.section-title {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.section-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rose-deep);
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+}
+
+// ------------------------------------------------------------
+//  Cards (orders / reviews / flags)
+// ------------------------------------------------------------
+.admin-card {
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-id {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.card-meta {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+// Status badge
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &--pending { background: var(--gold-tint); color: color-mix(in oklch, var(--gold) 66%, #3a2a00); }
+  &--preparing { background: var(--rose-tint); color: var(--rose-deep); }
+  &--ready { background: var(--ok-tint); color: var(--ok); }
+  &--completed { background: color-mix(in oklch, var(--foreground) 8%, transparent); color: var(--ink-soft); }
+  &--open { background: color-mix(in oklch, var(--destructive) 12%, transparent); color: var(--destructive); }
+  &--resolved { background: var(--ok-tint); color: var(--ok); }
+  &--dismissed { background: color-mix(in oklch, var(--foreground) 8%, transparent); color: var(--ink-soft); }
+  &--hidden { background: color-mix(in oklch, var(--foreground) 8%, transparent); color: var(--ink-soft); }
+}
+
+// Payment method chip (on order cards)
+.pay-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: color-mix(in oklch, var(--foreground) 8%, transparent);
+  color: var(--ink-soft);
+
+  &--card { background: var(--gold-tint); color: color-mix(in oklch, var(--gold) 66%, #3a2a00); }
+  &--cash { background: var(--ok-tint); color: var(--ok); }
+  &--qr { background: var(--rose-tint); color: var(--rose-deep); }
+  &--eft { background: color-mix(in oklch, var(--foreground) 8%, transparent); color: var(--ink-soft); }
+}
+
+// Order item lines (dotted price leader, menu style)
+.order-items {
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 0.86rem;
+    color: color-mix(in oklch, var(--ink) 84%, transparent);
+  }
+
+  .leader {
+    flex: 1;
+    border-bottom: 2px dotted color-mix(in oklch, var(--foreground) 22%, transparent);
+    transform: translateY(-3px);
+  }
+
+  .oi-price { color: var(--ink-soft); white-space: nowrap; }
+}
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--hair);
+}
+
+.card-total {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--gold-ink);
+}
+
+// Native status select
+.status-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 30px 8px 14px;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  background: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a08' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.2s;
+
+  &:focus { outline: none; border-color: color-mix(in oklch, var(--rose) 45%, transparent); }
+}
+
+// Review specifics
+.review-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-avatar {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--rose-tint), var(--paper) 78%);
+  border: 1px solid color-mix(in oklch, var(--gold) 34%, var(--hair));
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--rose-deep);
+}
+
+.review-name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.review-dish {
+  margin: 1px 0 0;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: auto;
+
+  ion-icon { font-size: 15px; color: var(--gold-ink); }
+  .star--off { color: color-mix(in oklch, var(--foreground) 20%, transparent); }
+}
+
+.review-text {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: color-mix(in oklch, var(--ink) 84%, transparent);
+}
+
+.flag-reason {
+  margin: 10px 0 2px;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.flag-detail {
+  margin: 0 0 4px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: color-mix(in oklch, var(--ink) 82%, transparent);
+}
+
+.flag-target {
+  margin: 4px 0 0;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+
+  code {
+    font-family: ui-monospace, monospace;
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: color-mix(in oklch, var(--foreground) 7%, transparent);
+    color: var(--ink);
+  }
+}
+
+// Action buttons (bloom glow + tap ripple via [appBloom])
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.84rem;
+  cursor: pointer;
+  isolation: isolate;
+  transition: filter 0.2s, transform 0.18s, background 0.2s;
+
+  // gold bloom that swells on press
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(60% 120% at 50% 120%, color-mix(in oklch, var(--gold) 55%, transparent), transparent 70%);
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+
+  ion-icon { font-size: 16px; }
+  &:active { transform: scale(0.97); }
+  &:active::before { opacity: 1; transform: scale(1.15); }
+
+  &--ok { background: var(--ok); color: #fff; &:hover { filter: brightness(1.08); } }
+  &--danger { background: transparent; border-color: color-mix(in oklch, var(--destructive) 40%, transparent); color: var(--destructive); &:hover { background: color-mix(in oklch, var(--destructive) 10%, transparent); } }
+  &--ghost { background: transparent; border-color: var(--hair); color: var(--ink-soft); &:hover { background: color-mix(in oklch, var(--foreground) 5%, transparent); } }
+  &--rose { background: var(--rose-deep); color: #fff; &:hover { filter: brightness(1.08); } }
+}
+
+// Quick links (dashboard)
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.12s both;
+}
+
+.quick-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  text-decoration: none;
+  transition: box-shadow 0.2s, transform 0.2s;
+
+  &:hover { box-shadow: var(--shadow-med); transform: translateY(-1px); }
+
+  .quick-ico {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--rose-tint);
+    color: var(--rose-deep);
+    ion-icon { font-size: 20px; }
+  }
+
+  .quick-label { margin: 0; font-weight: 600; font-size: 0.92rem; color: var(--ink); }
+  .quick-count { margin: 1px 0 0; font-size: 0.76rem; color: var(--ink-soft); }
+}
+
+// Empty state
+.empty {
+  text-align: center;
+  padding: 44px 24px;
+  margin: 12px 0;
+  border: 1px dashed var(--hair);
+  border-radius: 20px;
+  background: color-mix(in oklch, var(--paper) 55%, transparent);
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  .empty-ico {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 14px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--ok-tint);
+    color: var(--ok);
+    ion-icon { font-size: 30px; }
+  }
+
+  h2 {
+    margin: 0 0 6px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--ink);
+  }
+
+  p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+}
+
+// ------------------------------------------------------------
+//  Animations
+// ------------------------------------------------------------
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ------------------------------------------------------------
+//  Dark mode
+// ------------------------------------------------------------
+@media (prefers-color-scheme: dark) {
+  :host {
+    --rose-deep: color-mix(in oklch, var(--rose) 70%, white);
+    --gold-ink: oklch(0.86 0.13 88);
+    --ok: oklch(0.72 0.13 155);
+    --shadow-lift: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+  .grain { opacity: 0.07; mix-blend-mode: soft-light; }
+  .admin-bg {
+    background:
+      radial-gradient(120% 70% at 50% -12%, color-mix(in oklch, var(--gold) 13%, var(--background)) 0%, var(--background) 50%),
+      radial-gradient(90% 60% at 108% 102%, color-mix(in oklch, var(--rose) 22%, transparent) 0%, transparent 58%),
+      radial-gradient(80% 55% at -8% 88%, color-mix(in oklch, var(--gold) 12%, transparent) 0%, transparent 60%);
+  }
+  .btn--ok, .btn--rose { color: #fff; }
+}
+
+// ------------------------------------------------------------
+//  Responsive
+// ------------------------------------------------------------
+@media (max-width: 380px) {
+  .admin-inner { padding: 4px 14px 48px; }
+  .stat-grid { gap: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover, .stat-grid, .admin-card, .quick-grid, .empty,
+  .diamond-rule { animation: none; }
+  .btn:active::before { opacity: 1; transform: scale(1); }
+}

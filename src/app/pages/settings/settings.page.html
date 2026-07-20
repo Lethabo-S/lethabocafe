@@ -1,0 +1,109 @@
+<ion-header [translucent]="true" class="set-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/me" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Settings</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="set-content">
+  <div class="set-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="set-inner" *ngIf="settings as s">
+    <!-- Notifications -->
+    <section class="set-section">
+      <p class="set-title"><ion-icon name="notifications-outline"></ion-icon> Notifications</p>
+      <div class="set-list">
+        <div class="set-row">
+          <div class="set-copy"><h3>Email</h3><p>Order updates and receipts</p></div>
+          <ion-toggle
+            [checked]="s.notifications.email"
+            (ionChange)="updateNotification('email', $any($event).detail.checked)"
+          ></ion-toggle>
+        </div>
+        <div class="set-row">
+          <div class="set-copy"><h3>Push</h3><p>Real-time order status</p></div>
+          <ion-toggle
+            [checked]="s.notifications.push"
+            (ionChange)="updateNotification('push', $any($event).detail.checked)"
+          ></ion-toggle>
+        </div>
+        <div class="set-row">
+          <div class="set-copy"><h3>In-app</h3><p>Alerts inside the app</p></div>
+          <ion-toggle
+            [checked]="s.notifications.inApp"
+            (ionChange)="updateNotification('inApp', $any($event).detail.checked)"
+          ></ion-toggle>
+        </div>
+      </div>
+    </section>
+
+    <!-- Language -->
+    <section class="set-section">
+      <p class="set-title"><ion-icon name="language-outline"></ion-icon> Language</p>
+      <div class="set-list">
+        <div class="set-row">
+          <div class="set-copy"><h3>App language</h3><p>Preference stored on this device</p></div>
+          <select class="set-select" [value]="s.language" (change)="updateLanguage($event)" aria-label="App language">
+            <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</option>
+          </select>
+        </div>
+      </div>
+      <p class="set-hint">Full translations are being rolled out.</p>
+    </section>
+
+    <!-- Cookies & data -->
+    <section class="set-section">
+      <p class="set-title"><ion-icon name="shield-checkmark-outline"></ion-icon> Cookies &amp; data</p>
+      <div class="set-list">
+        <div class="set-row">
+          <div class="set-copy"><h3>Analytics cookies</h3><p>Anonymised usage stats</p></div>
+          <ion-toggle
+            [checked]="s.cookies.analytics"
+            (ionChange)="updateCookie('analytics', $any($event).detail.checked)"
+          ></ion-toggle>
+        </div>
+        <div class="set-row">
+          <div class="set-copy"><h3>Marketing cookies</h3><p>Personalised offers</p></div>
+          <ion-toggle
+            [checked]="s.cookies.marketing"
+            (ionChange)="updateCookie('marketing', $any($event).detail.checked)"
+          ></ion-toggle>
+        </div>
+      </div>
+      <div class="set-note">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>Essential cookies are always on to keep the app working.</span>
+      </div>
+    </section>
+
+    <!-- More options -->
+    <section class="set-section">
+      <p class="set-title"><ion-icon name="cog-outline"></ion-icon> More options</p>
+      <div class="set-list">
+        <button type="button" class="set-action bloom" (click)="clearCache()" appBloom>
+          <span class="act-ico act-ico--warn"><ion-icon name="trash-outline"></ion-icon></span>
+          <span class="set-copy"><h3>Clear cache</h3><p>Reset preferences &amp; free storage</p></span>
+          <ion-icon class="act-chevron" name="chevron-forward"></ion-icon>
+        </button>
+        <button type="button" class="set-action bloom" (click)="exportData()" appBloom>
+          <span class="act-ico"><ion-icon name="download-outline"></ion-icon></span>
+          <span class="set-copy"><h3>Export my data</h3><p>Download your personal data</p></span>
+          <ion-icon class="act-chevron" name="chevron-forward"></ion-icon>
+        </button>
+        <button type="button" class="set-action set-action--danger bloom" (click)="deleteAccount()" appBloom>
+          <span class="act-ico act-ico--danger"><ion-icon name="warning-outline"></ion-icon></span>
+          <span class="set-copy"><h3>Delete account</h3><p>Permanently remove your account</p></span>
+          <ion-icon class="act-chevron" name="chevron-forward"></ion-icon>
+        </button>
+      </div>
+    </section>
+
+    <p class="set-version">Forever &amp; Rose Café · v1.2</p>
+  </div>
+</ion-content>

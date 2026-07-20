@@ -1,0 +1,124 @@
+<ion-header [translucent]="true" class="cart-header">
+  <ion-toolbar>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <a class="table-badge" routerLink="/tabs/scan">
+        {{ tableNumber ? 'Table ' + tableNumber : 'Tap to scan table' }}
+      </a>
+      <h1 class="cover-title">Your Cart</h1>
+      <p class="cover-sub" *ngIf="cartItems.length === 0">Browse menu to start an order</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="cart-content">
+  <div class="cart-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="cart-inner">
+    <!-- Empty Cart -->
+    <div *ngIf="cartItems.length === 0" class="empty-cart">
+      <div class="empty-icon">
+        <ion-icon name="bag-outline"></ion-icon>
+      </div>
+      <h2 class="empty-title">Your cart is empty</h2>
+      <p class="empty-text">Add some dishes to get started.</p>
+      <ion-button routerLink="/tabs/menu" expand="block" class="browse-button" appBloom>
+        Browse Menu
+      </ion-button>
+    </div>
+
+    <!-- Cart Items -->
+    <ion-list *ngIf="cartItems.length > 0" class="cart-list">
+      <ion-item *ngFor="let item of cartItems" class="cart-item" lines="none">
+        <div class="item-thumb">
+          <span class="thumb-emoji">{{ item.emoji }}</span>
+        </div>
+
+        <div class="item-body">
+          <div class="item-line">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="item-price">R {{ item.price }}</span>
+          </div>
+
+          <div class="item-controls">
+            <button class="qty-btn" type="button" aria-label="Decrease" (click)="updateQty(item.id, -1)">
+              <ion-icon name="remove-outline"></ion-icon>
+            </button>
+            <span class="qty-value">{{ item.qty }}</span>
+            <button class="qty-btn" type="button" aria-label="Increase" (click)="updateQty(item.id, 1)">
+              <ion-icon name="add-outline"></ion-icon>
+            </button>
+            <button class="remove-btn" type="button" aria-label="Remove" (click)="removeItem(item.id)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <!-- Cart Summary -->
+    <div *ngIf="cartItems.length > 0" class="cart-summary">
+      <div class="summary-row">
+        <span class="summary-label">Subtotal</span>
+        <span class="summary-value">R {{ cartTotal }}</span>
+      </div>
+      <div class="summary-row coupon-row" *ngIf="couponDiscount > 0">
+        <span class="summary-label">
+          Coupon · {{ couponService.activeCoupon()?.code }}
+          <button type="button" class="coupon-remove" (click)="removeCoupon()" aria-label="Remove coupon">
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </span>
+        <span class="summary-value coupon-value">− R {{ couponDiscount }}</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">Service</span>
+        <span class="summary-value">Included</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-row total-row">
+        <span class="summary-label">Total</span>
+        <span class="summary-value total-value">R {{ effectiveTotal }}</span>
+      </div>
+
+      <!-- Payment method -->
+      <div class="pay-block">
+        <p class="pay-title">Pay with</p>
+        <div class="pay-options" role="radiogroup" aria-label="Payment method">
+          <button
+            *ngFor="let opt of paymentOptions"
+            type="button"
+            class="pay-opt"
+            role="radio"
+            [class.pay-opt--on]="selectedPayment === opt.id"
+            [attr.aria-checked]="selectedPayment === opt.id"
+            (click)="selectPayment(opt.id)"
+          >
+            <ion-icon [name]="opt.id === selectedPayment ? opt.icon.replace('-outline', '') : opt.icon"></ion-icon>
+            <span>{{ opt.label }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky checkout bar -->
+    <div *ngIf="cartItems.length > 0" class="checkout-bar">
+      <div class="checkout-meta">
+        <span class="checkout-total">R {{ effectiveTotal }}</span>
+        <span class="checkout-earn">+{{ getEarnedPoints() }} pts earned</span>
+      </div>
+      <button
+        type="button"
+        class="checkout-button"
+        appBloom
+        (click)="checkout()"
+        [disabled]="isPlacing"
+      >
+        <ion-icon name="bag-check-outline"></ion-icon>
+        {{ isPlacing ? 'Placing order…' : 'Place order' }}
+      </button>
+    </div>
+  </div>
+</ion-content>

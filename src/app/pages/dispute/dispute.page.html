@@ -1,0 +1,47 @@
+<ion-header [translucent]="true" class="info-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/me" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Disputes</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="info-content">
+  <div class="info-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="info-inner">
+    <div class="diamond-rule" aria-hidden="true"><span>&#9670;</span></div>
+    <div class="prose">
+      <p class="lead">
+        We aim to resolve issues quickly and fairly. If something's wrong with an order, here's how it works.
+      </p>
+
+      <ol class="step-list">
+        <li class="step-row">
+          <span class="step-ico"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></span>
+          <span><strong>Contact us.</strong> Reach out via the Help Centre with your order reference.</span>
+        </li>
+        <li class="step-row">
+          <span class="step-ico"><ion-icon name="search-outline"></ion-icon></span>
+          <span><strong>Review.</strong> Our team reviews disputes within 5 business days.</span>
+        </li>
+        <li class="step-row">
+          <span class="step-ico"><ion-icon name="checkmark-done-outline"></ion-icon></span>
+          <span><strong>Resolution.</strong> We'll issue a refund, replacement, or credit as appropriate.</span>
+        </li>
+      </ol>
+
+      <a class="info-btn" appBloom routerLink="/help-center">
+        <ion-icon name="help-buoy-outline"></ion-icon>
+        Open the Help Centre
+      </a>
+
+      <p class="last-updated">Last updated · July 2026</p>
+    </div>
+  </div>
+</ion-content>

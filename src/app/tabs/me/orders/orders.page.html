@@ -1,0 +1,59 @@
+<ion-header [translucent]="true" class="orders-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/me" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">My Orders</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="orders-content">
+  <div class="orders-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="orders-inner">
+    <div *ngIf="orders.length === 0" class="empty-orders">
+      <div class="empty-icon">
+        <ion-icon name="receipt-outline"></ion-icon>
+      </div>
+      <h2 class="empty-title">No orders yet</h2>
+      <p class="empty-text">Browse the menu and place your first order.</p>
+      <a class="browse-button bloom" routerLink="/tabs/menu" appBloom>Browse menu</a>
+    </div>
+
+    <div *ngIf="orders.length > 0" class="order-list">
+      <article class="order-card" *ngFor="let order of orders">
+        <div class="order-head">
+          <h2 class="order-id">{{ order.id }}</h2>
+          <span class="status-badge" [class]="statusClass(order.status)">
+            {{ statusLabel(order.status) }}
+          </span>
+        </div>
+
+        <p class="order-time">
+          <ion-icon name="time-outline"></ion-icon>
+          {{ order.createdAt | date:'short' }}
+        </p>
+
+        <div class="order-items">
+          <div class="item-line" *ngFor="let item of order.items">
+            <span class="item-name">{{ item.emoji }} {{ item.name }}</span>
+            <span class="leader"></span>
+            <span class="item-qty">× {{ item.qty }}</span>
+          </div>
+        </div>
+
+        <div class="order-footer">
+          <span class="order-total">{{ formatMoney(order.total) }}</span>
+          <button type="button" class="view-btn bloom" appBloom (click)="viewOrder(order)">
+            <ion-icon name="eye-outline"></ion-icon>
+            View
+          </button>
+        </div>
+      </article>
+    </div>
+  </div>
+</ion-content>

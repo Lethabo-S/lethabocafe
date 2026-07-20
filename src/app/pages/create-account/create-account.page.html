@@ -1,0 +1,85 @@
+<ion-content [fullscreen]="true" class="auth-content">
+  <div class="auth-bg" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="auth-inner">
+    <a class="auth-back" routerLink="/login">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Sign in
+    </a>
+
+    <header class="brand">
+      <div class="brand-mark">
+        <ion-icon name="cafe-outline"></ion-icon>
+      </div>
+      <p class="signed">Est. with love</p>
+      <p class="brand-eyebrow">Forever &amp; Rose</p>
+      <h1 class="brand-title">Join us</h1>
+      <p class="brand-sub">Save favourites &amp; order faster</p>
+    </header>
+
+    <form (ngSubmit)="register()" class="auth-form">
+      <div class="field" [class.has-error]="nameError">
+        <span class="field-ico"><ion-icon name="person-outline"></ion-icon></span>
+        <ion-input
+          label="Full name"
+          label-placement="stacked"
+          type="text"
+          autocomplete="name"
+          [(ngModel)]="name"
+          name="name"
+          (ionInput)="nameError = false"
+        ></ion-input>
+      </div>
+      <p class="field-error" *ngIf="nameError">Please enter your name</p>
+
+      <div class="field" [class.has-error]="emailError">
+        <span class="field-ico"><ion-icon name="mail-outline"></ion-icon></span>
+        <ion-input
+          label="Email"
+          label-placement="stacked"
+          type="email"
+          autocomplete="email"
+          [(ngModel)]="email"
+          name="email"
+          (ionInput)="emailError = false"
+        ></ion-input>
+      </div>
+      <p class="field-error" *ngIf="emailError">Enter a valid email address</p>
+
+      <div class="field" [class.has-error]="passwordError">
+        <span class="field-ico"><ion-icon name="lock-closed-outline"></ion-icon></span>
+        <ion-input
+          label="Password"
+          label-placement="stacked"
+          [type]="showPassword ? 'text' : 'password'"
+          autocomplete="new-password"
+          [(ngModel)]="password"
+          name="password"
+          (ionInput)="passwordError = false"
+        ></ion-input>
+        <button
+          type="button"
+          class="reveal-btn"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          (click)="togglePassword()"
+        >
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </button>
+      </div>
+      <p class="field-error" *ngIf="passwordError">Use at least 6 characters</p>
+      <p class="field-hint" *ngIf="!passwordError">At least 6 characters.</p>
+
+      <button type="submit" class="submit-btn" appBloom [disabled]="creating">
+        {{ creating ? 'Creating…' : 'Create account' }}
+        <ion-icon name="arrow-forward-outline" *ngIf="!creating"></ion-icon>
+      </button>
+    </form>
+
+    <p class="auth-switch">
+      Already have an account?
+      <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</ion-content>

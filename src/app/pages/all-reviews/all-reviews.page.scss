@@ -1,0 +1,24 @@
+@import '../info-shared.scss';
+
+.ar-stars {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: auto;
+
+  ion-icon { font-size: 14px; color: var(--gold-ink); }
+  .star--off { color: color-mix(in oklch, var(--foreground) 20%, transparent); }
+}
+
+.ar-dish {
+  margin: 0 0 6px;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.ar-empty {
+  text-align: center;
+  padding: 44px 24px;
+  color: var(--ink-soft);
+  font-family: var(--font-serif);
+  font-style: italic;
+}

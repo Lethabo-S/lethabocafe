@@ -1,0 +1,187 @@
+<ion-header [translucent]="true" class="of-header">
+  <ion-toolbar>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Offers &amp; Promos</h1>
+      <p class="cover-sub">Little perks for your table</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="of-content">
+  <div class="of-bg" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="of-inner">
+    <!-- Membership card -->
+    <section class="member" aria-label="Membership">
+      <div class="member-card">
+        <span class="member-glow" aria-hidden="true"></span>
+        <div class="member-top">
+          <div>
+            <p class="member-eyebrow">Forever &amp; Rose</p>
+            <h2 class="member-title">Member Card</h2>
+          </div>
+          <span class="wax" aria-hidden="true">
+            <span class="wax-mono">FR</span>
+            <span class="wax-shine"></span>
+          </span>
+        </div>
+
+        <p class="member-sub">
+          A stamp with every visit — your 6th cup lands on the house.
+        </p>
+
+        <div class="stamps" role="img" [attr.aria-label]="stamps + ' of 6 stamps collected'">
+          <span class="stamp" *ngFor="let s of stampArray" [class.stamp--on]="s <= stamps">
+            <ion-icon *ngIf="s <= stamps" name="cafe-outline"></ion-icon>
+          </span>
+        </div>
+
+        <p class="member-progress">
+          {{ stamps }}/6 stamps · {{ 6 - stamps }} more for a free coffee
+        </p>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <ion-segment
+      [(ngModel)]="filter"
+      value="all"
+      class="of-segment"
+      aria-label="Filter offers"
+    >
+      <ion-segment-button value="all">
+        <ion-label>All <span class="seg-count">{{ counts.all }}</span></ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="active">
+        <ion-label>Active <span class="seg-count">{{ counts.active }}</span></ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="expiring">
+        <ion-label>Ending <span class="seg-count">{{ counts.expiring }}</span></ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="saved">
+        <ion-label>Saved <span class="seg-count">{{ counts.saved }}</span></ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Featured hero -->
+    <article
+      *ngIf="featured as f"
+      class="hero"
+      [attr.data-category]="f.category"
+      [style.animationDelay]="'0s'"
+    >
+      <span class="hero-badge">{{ badgeLabel(f) }}</span>
+      <div class="hero-body">
+        <div class="hero-head">
+          <span class="hero-ico" [attr.data-category]="f.category" aria-hidden="true">
+            <ion-icon [name]="iconFor(f.category)"></ion-icon>
+          </span>
+          <div>
+            <h2 class="hero-title">{{ f.title }}</h2>
+            <p class="hero-exp" [class.expired]="cs.isExpired(f)">{{ expiryLabel(f) }}</p>
+          </div>
+        </div>
+        <p class="hero-desc">{{ f.description }}</p>
+
+        <div class="code-row">
+          <code class="code-chip">{{ f.code }}</code>
+          <button type="button" class="mini-btn" (click)="copyCode(f.code, $event)" aria-label="Copy code">
+            <ion-icon name="copy-outline" aria-hidden="true"></ion-icon>
+            Copy
+          </button>
+        </div>
+
+        <div class="hero-actions">
+          <button type="button" class="use-btn" appBloom (click)="useOffer(f)" [disabled]="cs.isExpired(f)">
+            <ion-icon name="ticket-outline" aria-hidden="true"></ion-icon>
+            Use offer
+          </button>
+          <button
+            type="button"
+            class="save-btn"
+            [class.on]="cs.isSaved(f.id)"
+            (click)="toggleSave(f, $event)"
+            [attr.aria-pressed]="cs.isSaved(f.id)"
+            [attr.aria-label]="cs.isSaved(f.id) ? 'Remove from saved' : 'Save offer'"
+          >
+            <ion-icon [name]="cs.isSaved(f.id) ? 'bookmark' : 'bookmark-outline'" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+        <p class="hero-terms">{{ f.terms }}</p>
+      </div>
+    </article>
+
+    <!-- Coupon grid -->
+    <ul class="of-list" *ngIf="visibleCoupons.length > 0; else emptyState">
+      <li
+        *ngFor="let c of visibleCoupons; let i = index"
+        class="card cp"
+        [class.expired]="cs.isExpired(c)"
+        [class.saved]="cs.isSaved(c.id)"
+        [style.animationDelay]="i * 0.04 + 's'"
+      >
+        <span class="cp-badge">{{ badgeLabel(c) }}</span>
+
+        <div class="cp-head">
+          <span class="cp-ico" [attr.data-category]="c.category" aria-hidden="true">
+            <ion-icon [name]="iconFor(c.category)"></ion-icon>
+          </span>
+          <div class="cp-titles">
+            <p class="cp-title">{{ c.title }}</p>
+            <p class="cp-exp" [class.expired]="cs.isExpired(c)">{{ expiryLabel(c) }}</p>
+          </div>
+        </div>
+
+        <p class="cp-desc">{{ c.description }}</p>
+
+        <div class="code-row">
+          <code class="code-chip">{{ c.code }}</code>
+          <button type="button" class="mini-btn" (click)="copyCode(c.code, $event)" aria-label="Copy code">
+            <ion-icon name="copy-outline" aria-hidden="true"></ion-icon>
+            Copy
+          </button>
+        </div>
+
+        <div class="cp-actions">
+          <button type="button" class="use-btn" appBloom (click)="useOffer(c)" [disabled]="cs.isExpired(c)">
+            <ion-icon name="ticket-outline" aria-hidden="true"></ion-icon>
+            Use offer
+          </button>
+          <button
+            type="button"
+            class="save-btn"
+            [class.on]="cs.isSaved(c.id)"
+            (click)="toggleSave(c, $event)"
+            [attr.aria-pressed]="cs.isSaved(c.id)"
+            [attr.aria-label]="cs.isSaved(c.id) ? 'Remove from saved' : 'Save offer'"
+          >
+            <ion-icon [name]="cs.isSaved(c.id) ? 'bookmark' : 'bookmark-outline'" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+
+        <p class="cp-terms">{{ c.terms }}</p>
+      </li>
+    </ul>
+
+    <ng-template #emptyState>
+      <div class="empty">
+        <span class="empty-seal" aria-hidden="true">
+          <ion-icon name="ticket-outline"></ion-icon>
+        </span>
+        <p class="empty-title">No offers here yet</p>
+        <p class="empty-sub">
+          {{ filter === 'saved' ? 'Tap the bookmark on any offer to save it here.' : 'Check back soon — fresh perks are on the way.' }}
+        </p>
+      </div>
+    </ng-template>
+
+    <div class="carte-foot" aria-hidden="true" *ngIf="visibleCoupons.length > 0">
+      <span>&#10087;</span>
+      <p>Forever &amp; Rose &middot; Est. with love</p>
+      <span>&#10087;</span>
+    </div>
+  </div>
+</ion-content>

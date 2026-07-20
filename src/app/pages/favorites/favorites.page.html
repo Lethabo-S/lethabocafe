@@ -1,0 +1,79 @@
+<ion-header [translucent]="true" class="fav-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Favourites</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fav-content">
+  <div class="fav-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+
+  <div class="fav-inner">
+    <!-- Empty state -->
+    <div *ngIf="favoriteItems.length === 0" class="empty-fav">
+      <div class="empty-seal" aria-hidden="true">
+        <ion-icon name="heart-outline"></ion-icon>
+      </div>
+      <h2 class="empty-title">Nothing saved yet</h2>
+      <p class="empty-text">Tap the heart on any dish and it will keep a place here.</p>
+      <a class="browse-button bloom" routerLink="/tabs/menu" appBloom>Browse the menu</a>
+    </div>
+
+    <!-- Favourites grid -->
+    <ng-container *ngIf="favoriteItems.length > 0">
+      <p class="fav-count">
+        {{ favoriteItems.length }} {{ favoriteItems.length === 1 ? 'dish' : 'dishes' }} saved
+      </p>
+
+      <div class="fav-grid">
+        <article class="fav-card" *ngFor="let item of favoriteItems; trackBy: trackById">
+          <div class="item-thumb">
+            <span class="thumb-emoji">{{ item.emoji }}</span>
+          </div>
+
+          <div class="item-info">
+            <h2 class="item-name">{{ item.name }}</h2>
+            <p class="item-desc">{{ item.desc }}</p>
+            <div class="item-line">
+              <span class="price-label">Price</span>
+              <span class="leader"></span>
+              <span class="item-price">{{ item.price }} R</span>
+            </div>
+          </div>
+
+          <div class="item-actions">
+            <div class="item-ico-row">
+              <button
+                type="button"
+                class="heart-btn"
+                aria-label="Remove from favourites"
+                (click)="removeFavorite(item)"
+              >
+                <ion-icon name="heart"></ion-icon>
+              </button>
+              <button
+                type="button"
+                class="del-btn"
+                aria-label="Delete from favourites"
+                (click)="removeFavorite(item)"
+              >
+                <ion-icon name="trash-outline"></ion-icon>
+              </button>
+            </div>
+            <button type="button" class="add-btn bloom" appBloom (click)="addToCart(item)">
+              <ion-icon name="add"></ion-icon>
+              Add
+            </button>
+          </div>
+        </article>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

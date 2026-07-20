@@ -1,0 +1,56 @@
+<ion-content class="sheet">
+  <div class="sheet-grain" aria-hidden="true"></div>
+
+  <div class="sheet-inner">
+    <div class="handle" aria-hidden="true"></div>
+
+    <button class="close" type="button" aria-label="Close" (click)="close()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+
+    <div class="plate">
+      <span class="plate-ring plate-ring--outer" aria-hidden="true"></span>
+      <span class="plate-ring plate-ring--mid" aria-hidden="true"></span>
+      <span class="plate-ring plate-ring--inner" aria-hidden="true"></span>
+      <span class="plate-emoji">{{ dish.emoji }}</span>
+    </div>
+
+    <span class="kicker" *ngIf="dish.tag">{{ dish.tag }}</span>
+
+    <h2 class="name">{{ dish.name }}</h2>
+
+    <div class="rating" *ngIf="dish.rating">
+      <ion-icon name="star" class="star"></ion-icon>
+      <span class="rating-num">{{ dish.rating.toFixed(1) }}</span>
+      <span class="rating-dot">&middot;</span>
+      <span class="rating-cat">{{ dish.category }}</span>
+    </div>
+
+    <p class="desc">{{ dish.desc }}</p>
+
+    <!-- Scrolling notes ribbon -->
+    <div class="notes" aria-hidden="true" *ngIf="notes.length">
+      <div class="notes-track">
+        <span class="note" *ngFor="let n of notes">{{ n }}</span>
+        <span class="note" *ngFor="let n of notes">{{ n }}</span>
+      </div>
+    </div>
+
+    <div class="rule" aria-hidden="true">
+      <span class="diamond">&#9670;</span>
+    </div>
+
+    <div class="foot">
+      <div class="leader-row">
+        <span class="leader-label">At your table</span>
+        <span class="leader-dots" aria-hidden="true"></span>
+        <span class="leader-price">R {{ dish.price.toFixed(2) }}</span>
+      </div>
+
+      <button class="add" type="button" appBloom (click)="addToCart()">
+        <ion-icon name="add-outline"></ion-icon>
+        Add to table
+      </button>
+    </div>
+  </div>
+</ion-content>

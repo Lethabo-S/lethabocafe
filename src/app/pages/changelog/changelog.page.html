@@ -1,0 +1,31 @@
+<ion-header [translucent]="true" class="info-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/me" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Changelog</h1>
+      <p class="cover-sub">What's new</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="info-content">
+  <div class="info-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="info-inner">
+    <div class="diamond-rule" aria-hidden="true"><span>&#9670;</span></div>
+    <div class="timeline">
+      <div class="tl-item" *ngFor="let entry of entries">
+        <div class="tl-head">
+          <span class="tl-version">v{{ entry.version }}</span>
+          <span class="tl-tag" [class.tl-tag--new]="entry.tag === 'New'">{{ entry.tag }}</span>
+        </div>
+        <p class="tl-date">{{ entry.date }}</p>
+        <p class="tl-text">{{ entry.text }}</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

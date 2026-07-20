@@ -1,0 +1,365 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap');
+
+// --------------------------------------------------------------
+//  Edit Profile — "Carte" editorial UI
+//  (shared tokens with menu / cart / me / favourites)
+// --------------------------------------------------------------
+:host {
+  --paper: var(--card);
+  --hair: color-mix(in oklch, var(--foreground) 13%, transparent);
+  --ink: var(--foreground);
+  --ink-soft: var(--muted-foreground);
+  --rose: var(--rose);
+  --rose-tint: color-mix(in oklch, var(--rose) 13%, transparent);
+  --rose-deep: color-mix(in oklch, var(--rose) 78%, #2a0d0a);
+  --gold-ink: var(--gold);
+  --gold-tint: color-mix(in oklch, var(--gold) 16%, transparent);
+  --gold-soft: color-mix(in oklch, var(--gold) 32%, transparent);
+  --shadow-soft: 0 2px 16px rgba(61, 10, 5, 0.07);
+  --shadow-med: 0 16px 40px rgba(61, 10, 5, 0.13);
+  --shadow-btn: 0 14px 34px color-mix(in oklch, var(--rose) 46%, transparent);
+
+  --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
+  --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-script: 'Caveat', 'Segoe Script', cursive;
+}
+
+* {
+  font-family: var(--font-ui);
+  box-sizing: border-box;
+}
+
+ion-content.profile-content {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+// ------------------------------------------------------------
+//  Atmosphere
+// ------------------------------------------------------------
+.profile-bg,
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.profile-bg {
+  background:
+    radial-gradient(120% 75% at 50% -12%, color-mix(in oklch, var(--gold) 10%, var(--background)) 0%, var(--background) 52%),
+    radial-gradient(90% 60% at 108% 102%, var(--rose-tint) 0%, transparent 58%),
+    radial-gradient(80% 55% at -8% 88%, color-mix(in oklch, var(--gold) 9%, transparent) 0%, transparent 60%);
+}
+
+.grain {
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.profile-inner {
+  position: relative;
+  z-index: 1;
+  padding: 4px 18px 48px;
+}
+
+// ------------------------------------------------------------
+//  Header cover
+// ------------------------------------------------------------
+.profile-header ion-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+  --min-height: auto;
+  padding-top: 8px;
+  position: relative;
+}
+
+.profile-header ion-back-button {
+  --color: var(--ink);
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  z-index: 2;
+}
+
+.cover {
+  text-align: center;
+  padding: 14px 44px 12px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.cover-eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.cover-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 8vw, 2.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.skeleton-wrap { padding: 12px 0; }
+
+// ------------------------------------------------------------
+//  Avatar hero
+// ------------------------------------------------------------
+.avatar-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0 22px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.04s both;
+}
+
+.avatar-ring {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--rose-tint), var(--paper) 78%);
+  border: 1px solid color-mix(in oklch, var(--gold) 42%, var(--hair));
+  box-shadow: var(--shadow-soft), inset 0 0 0 4px color-mix(in oklch, var(--paper) 70%, transparent);
+}
+
+.avatar-initials {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 2.2rem;
+  color: var(--rose-deep);
+}
+
+.avatar-cam {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--background);
+  background: var(--rose-deep);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.18s, filter 0.2s;
+
+  ion-icon { font-size: 16px; }
+
+  &:hover { filter: brightness(1.08); }
+  &:active { transform: scale(0.92); }
+}
+
+.role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 14px;
+  padding: 4px 12px 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--hair);
+  background: var(--rose-tint);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rose-deep);
+
+  ion-icon { font-size: 0.9rem; }
+
+  &--admin {
+    background: var(--gold-tint);
+    border-color: color-mix(in oklch, var(--gold) 40%, transparent);
+    color: color-mix(in oklch, var(--gold) 68%, #3a2a00);
+  }
+}
+
+.member-since {
+  margin: 10px 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+// ------------------------------------------------------------
+//  Form fields
+// ------------------------------------------------------------
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.12s both;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 14px 6px 14px;
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: color-mix(in oklch, var(--rose) 45%, transparent);
+    box-shadow: 0 0 0 3px var(--rose-tint);
+  }
+}
+
+.field-ico {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--rose-tint);
+  color: var(--rose-deep);
+
+  ion-icon { font-size: 19px; }
+}
+
+.field ion-input {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 6px;
+  --padding-bottom: 6px;
+  --color: var(--ink);
+  --placeholder-color: var(--ink-soft);
+  --placeholder-opacity: 0.7;
+  flex: 1;
+  font-weight: 500;
+}
+
+.field ion-input::part(label) {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+// ------------------------------------------------------------
+//  Save button
+// ------------------------------------------------------------
+.save-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  background: var(--rose-deep);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.18s;
+
+  ion-icon { font-size: 19px; }
+
+  &:hover { filter: brightness(1.08); }
+  &:active { transform: scale(0.98); }
+  &:disabled {
+    background: color-mix(in oklch, var(--foreground) 14%, transparent);
+    color: var(--ink-soft);
+    cursor: not-allowed;
+  }
+}
+
+// ------------------------------------------------------------
+//  Bloom CTA glow (pairs with appBloom ripple)
+// ------------------------------------------------------------
+.bloom {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(60% 120% at 50% 120%, color-mix(in oklch, var(--gold) 55%, transparent), transparent 70%);
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%);
+    transform: translateX(-130%);
+    pointer-events: none;
+  }
+
+  &:active::before { opacity: 1; transform: scale(1.15); }
+  &:active::after { animation: sweep 0.6s ease 1; }
+}
+
+// ------------------------------------------------------------
+//  Animations
+// ------------------------------------------------------------
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes sweep {
+  to { transform: translateX(130%); }
+}
+
+// ------------------------------------------------------------
+//  Dark mode
+// ------------------------------------------------------------
+@media (prefers-color-scheme: dark) {
+  :host {
+    --rose-deep: color-mix(in oklch, var(--rose) 70%, white);
+    --gold-ink: oklch(0.86 0.13 88);
+  }
+  .grain { opacity: 0.07; mix-blend-mode: soft-light; }
+  .profile-bg {
+    background:
+      radial-gradient(120% 75% at 50% -12%, color-mix(in oklch, var(--gold) 12%, var(--background)) 0%, var(--background) 52%),
+      radial-gradient(90% 60% at 108% 102%, color-mix(in oklch, var(--rose) 22%, transparent) 0%, transparent 58%),
+      radial-gradient(80% 55% at -8% 88%, color-mix(in oklch, var(--gold) 12%, transparent) 0%, transparent 60%);
+  }
+  .save-btn { color: #fff8f4; }
+}
+
+// ------------------------------------------------------------
+//  Responsive
+// ------------------------------------------------------------
+@media (max-width: 380px) {
+  .profile-inner { padding: 4px 14px 44px; }
+}
+@media (min-width: 720px) {
+  .profile-inner { max-width: 480px; margin: 0 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover, .avatar-hero, form { animation: none; }
+  .bloom:active::before { opacity: 1; transform: scale(1); }
+}

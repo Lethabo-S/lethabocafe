@@ -1,0 +1,82 @@
+<ion-header [translucent]="true" class="info-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <h1 class="cover-brand">
+        <span class="cover-word">Forever</span>
+        <span class="cover-amp">&amp;</span>
+        <span class="cover-word">Rose</span>
+      </h1>
+      <div class="cover-rule" aria-hidden="true">
+        <span class="cover-diamond">&#9670;</span>
+      </div>
+      <p class="cover-sub">A dish, plated with love</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="detail-content">
+  <!-- Atmospheric layers -->
+  <div class="info-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <app-brand-dust></app-brand-dust>
+
+  <div class="detail-inner">
+    <!-- Concentric plated hero -->
+    <div class="plate">
+      <span class="plate-ring plate-ring--outer" aria-hidden="true"></span>
+      <span class="plate-ring plate-ring--mid" aria-hidden="true"></span>
+      <span class="plate-ring plate-ring--inner" aria-hidden="true"></span>
+      <span class="plate-emoji">{{ dish.emoji }}</span>
+    </div>
+
+    <span class="kicker" *ngIf="dish.category">{{ dish.category }}</span>
+
+    <h2 class="name">{{ dish.name }}</h2>
+
+    <div class="rating" *ngIf="dish.rating">
+      <ion-icon name="star" class="star"></ion-icon>
+      <span class="rating-num">{{ dish.rating.toFixed(1) }}</span>
+      <span class="rating-dot">&middot;</span>
+      <span class="rating-cat">{{ dish.category }}</span>
+    </div>
+
+    <p class="desc">{{ dish.desc }}</p>
+
+    <!-- Scrolling notes ribbon -->
+    <div class="notes" aria-hidden="true" *ngIf="notes.length">
+      <div class="notes-track">
+        <span class="note" *ngFor="let n of notes">{{ n }}</span>
+        <span class="note" *ngFor="let n of notes">{{ n }}</span>
+      </div>
+    </div>
+
+    <div class="rule" aria-hidden="true">
+      <span class="diamond">&#9670;</span>
+    </div>
+
+    <p class="detail-title">Nutrition <span>per serving</span></p>
+    <div class="nut-list">
+      <div class="nut-row" *ngFor="let n of nutrition">
+        <span class="nut-label">{{ n.label }}</span>
+        <span class="nut-value">{{ n.value }}</span>
+      </div>
+    </div>
+
+    <!-- Sticky rose "Add to table" bar -->
+    <div class="foot">
+      <div class="leader-row">
+        <span class="leader-label">At your table</span>
+        <span class="leader-dots" aria-hidden="true"></span>
+        <span class="leader-price">{{ formatPrice(dish.price) }}</span>
+      </div>
+
+      <a class="add" routerLink="/tabs/cart" appBloom>
+        <ion-icon name="bag-add-outline"></ion-icon>
+        Add to table
+      </a>
+    </div>
+  </div>
+</ion-content>

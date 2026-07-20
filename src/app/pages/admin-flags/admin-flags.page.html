@@ -1,0 +1,57 @@
+<ion-header [translucent]="true" class="admin-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin-dashboard" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="cover">
+      <p class="cover-eyebrow">Forever &amp; Rose</p>
+      <h1 class="cover-title">Flags</h1>
+      <p class="cover-sub">Keep the carte tidy</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-content">
+  <div class="admin-bg" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="admin-inner">
+    <div class="diamond-rule" aria-hidden="true">
+      <span class="rule-line"></span>
+      <span class="diamond">&#9670;</span>
+      <span class="rule-line"></span>
+    </div>
+
+    <div *ngIf="flags.length === 0" class="empty">
+      <div class="empty-ico"><ion-icon name="flag-outline"></ion-icon></div>
+      <h2>No open flags</h2>
+      <p>Everything looks clean.</p>
+    </div>
+
+    <article class="admin-card" *ngFor="let flag of flags">
+      <div class="card-top">
+        <span class="badge" [class.badge--open]="flag.status === 'open'">
+          <ion-icon name="flag-outline"></ion-icon>
+          {{ flag.status }}
+        </span>
+      </div>
+
+      <p class="flag-reason">{{ flag.reason }}</p>
+      <p class="flag-detail" *ngIf="flag.details">{{ flag.details }}</p>
+      <p class="flag-target">
+        by {{ flag.reporter }} · target <code>{{ flag.targetId }}</code>
+      </p>
+
+      <div class="card-actions" *ngIf="flag.status === 'open'">
+        <button type="button" class="btn btn--ok" appBloom (click)="resolve(flag)">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          Resolve
+        </button>
+        <button type="button" class="btn btn--ghost" appBloom (click)="dismiss(flag)">
+          <ion-icon name="close-circle-outline"></ion-icon>
+          Dismiss
+        </button>
+      </div>
+    </article>
+  </div>
+</ion-content>

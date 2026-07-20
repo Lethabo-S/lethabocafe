@@ -1,0 +1,19 @@
+<ion-header [translucent]="true" class="admin-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin-dashboard" text=""></ion-back-button>
+    </ion-buttons>
+    <button type="button" class="header-action" (click)="addNew()" aria-label="Add permission">
+      <ion-icon name="add-outline"></ion-icon>
+    </button>
+    <div class="cover">
+      <p class="cover-eyebrow">Access</p>
+      <h1 class="cover-title">Permissions</h1>
+      <p class="cover-sub">Define role-based access</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-content">
+  <app-crud-list entity="permissions"></app-crud-list>
+</ion-content>
