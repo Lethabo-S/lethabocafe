@@ -63,9 +63,9 @@ interface Tab {
   styles: [
     `
       :host {
-        --tb-hair: color-mix(in oklch, var(--foreground) 12%, transparent);
-        --tb-rose: color-mix(in oklch, var(--rose) 78%, #2a0d0a);
-        --tb-rose-tint: color-mix(in oklch, var(--rose) 14%, transparent);
+          --tb-hair: #7a6a6a;       /* muted espresso accent */
+          --tb-rose: #b82a21;       /* deep rose-brown */
+          --tb-rose-tint: #d96266;  /* light rose tint */
         --tb-gold: var(--gold);
         --font-ui: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
         display: block;

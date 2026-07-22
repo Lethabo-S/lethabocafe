@@ -157,4 +157,5 @@ export class SettingsPage implements OnInit, OnDestroy {
     });
     await t.present();
   }
+  
 }

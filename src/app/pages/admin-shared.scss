@@ -3,25 +3,33 @@
 // --------------------------------------------------------------
 //  Shared "Forever & Rose" admin console styles
 //  Imported by admin-dashboard / admin-reviews / admin-flags
+//  Theme tokens (--paper, --ink, --rose-deep, …) live in global.scss
+//  so they are available app-wide; only the layout rules are here.
 // --------------------------------------------------------------
+
 :host {
-  --paper: var(--card);
-  --hair: color-mix(in oklch, var(--foreground) 13%, transparent);
-  --ink: var(--foreground);
-  --ink-soft: var(--muted-foreground);
-  --rose: var(--rose);
-  --rose-tint: color-mix(in oklch, var(--rose) 13%, transparent);
-  --rose-deep: color-mix(in oklch, var(--rose) 78%, #2a0d0a);
-  --gold-ink: var(--gold);
-  --gold-tint: color-mix(in oklch, var(--gold) 16%, transparent);
-  --gold-soft: color-mix(in oklch, var(--gold) 32%, transparent);
-  --ok: oklch(0.62 0.13 155);
-  --ok-tint: color-mix(in oklch, oklch(0.62 0.13 155) 14%, transparent);
-  --warn: var(--gold);
+  --paper: #fcf6f4;       /* cream background */
+  --hair: #7a6a6a;        /* muted accent */
+  --ink: #3d0a05;         /* deep espresso */
+  --ink-soft: #7a6a6a;    /* softer text */
+
+  --rose: #c2787a;                        /* dusty rose */
+  --rose-tint: #d96266;                   /* light rose tint */
+  --rose-deep: #b82a21;                   /* rich rose-brown */
+
+  --gold-ink: #d6a545;                    /* warm gold */
+  --gold-tint: #e8c078;                   /* light gold shimmer */
+  --gold-soft: #b68e4a;                   /* antique gold accent */
+
+  --ok: #1fa37c;                          /* ok green */
+  --ok-tint: rgba(31, 163, 124, 0.14);    /* subtle ok tint */
+
+  --warn: #d6a545;                        /* gold warning tone */
+
   --shadow-soft: 0 2px 16px rgba(61, 10, 5, 0.07);
   --shadow-lift: 0 12px 30px rgba(61, 10, 5, 0.12);
   --shadow-med: 0 16px 40px rgba(61, 10, 5, 0.13);
-  --shadow-btn: 0 14px 34px color-mix(in oklch, var(--rose) 46%, transparent);
+  --shadow-btn: 0 14px 34px rgba(184, 42, 33, 0.46); /* rose-deep shadow */
 
   --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
   --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
@@ -368,27 +376,67 @@ ion-content.admin-content {
   font-size: 1.1rem;
   color: var(--gold-ink);
 }
+// .status-select {
+//   border-radius: 999px;
+//   height: 32px;
+//   font-size: 0.8rem;
+// }
 
-// Native status select
-.status-select {
-  appearance: none;
-  -webkit-appearance: none;
-  padding: 8px 30px 8px 14px;
+// ion-select pill — matches the style used in the reviews tab
+
+// .status-select.status-select,
+// ion-select.status-select {
+//   --background: var(--paper);
+//   --padding-start: 14px;
+//   --padding-end: 14px;
+//   --border-radius: 14px;
+//   border: 1px solid var(--hair);
+//   border-radius: 14px;
+//   // width: 100%;
+//   height: 32px;
+//   font-family: var(--font-ui);
+//   font-size: 0.9rem;
+
+//   &::part(icon) 
+//   { color: var(--gold-ink); }
+// }
+
+// .status-select {
+//   border-radius: 999px;
+//   height: 32px;
+//   min-width: 116px;
+//   width: auto;
+//   font-size: 0.72rem;
+//   letter-spacing: 0.02em;
+//   --padding-start: 23px;
+//   --padding-end: 14px;
+
+//   &::part(icon) 
+//   { font-size: 15px; }
+// }
+
+.status-select,
+ion-select.status-select {
+  --background: var(--paper);
+  --padding-start: 23px;   // from second block
+  --padding-end: 14px;
   border: 1px solid var(--hair);
-  border-radius: 999px;
-  background: var(--paper);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a08' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
+  border-radius: 999px;    // rounded pill shape
+  height: 32px;
+  min-width: 116px;
+  width: auto;
   font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 0.82rem;
-  color: var(--ink);
-  cursor: pointer;
-  transition: border-color 0.2s;
+  font-size: 0.72rem;      // smaller text size
+  letter-spacing: 0.02em;
 
-  &:focus { outline: none; border-color: color-mix(in oklch, var(--rose) 45%, transparent); }
+  &::part(icon) {
+    color: var(--gold-ink);   // from first block
+    font-size: 15px;          // from second block
+  }
 }
+
+
+
 
 // Review specifics
 .review-head {
@@ -601,13 +649,15 @@ ion-content.admin-content {
 // ------------------------------------------------------------
 //  Dark mode
 // ------------------------------------------------------------
-@media (prefers-color-scheme: dark) {
-  :host {
+:host-context(.dark) {
+  
+
     --rose-deep: color-mix(in oklch, var(--rose) 70%, white);
     --gold-ink: oklch(0.86 0.13 88);
     --ok: oklch(0.72 0.13 155);
     --shadow-lift: 0 12px 30px rgba(0, 0, 0, 0.4);
-  }
+  
+
   .grain { opacity: 0.07; mix-blend-mode: soft-light; }
   .admin-bg {
     background:

@@ -139,14 +139,18 @@
 
       <div class="card-foot">
         <span class="card-total">{{ money(order.total) }}</span>
-        <select
-          class="status-select"
-          [value]="order.status"
-          (change)="onStatusChange(order.id, $event)"
-          aria-label="Update order status"
-        >
-          <option *ngFor="let status of orderStatuses" [value]="status">{{ status }}</option>
-        </select>
+       <ion-select
+  [value]="order.status"
+  (ionChange)="onStatusChange(order.id, $event)"
+  interface="popover"
+  aria-label="Update order status"
+  class="status-select"
+>
+  <ion-select-option *ngFor="let status of orderStatuses" [value]="status">
+    {{ status }}
+  </ion-select-option>
+</ion-select>
+
       </div>
     </div>
   </div>
