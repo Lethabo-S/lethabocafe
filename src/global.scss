@@ -76,22 +76,28 @@
   --gold: oklch(0.78 0.11 80);
 
   /* Derived semantic tokens for admin/info pages */
-  --paper: var(--card);
-  --hair: color-mix(in oklch, var(--foreground) 13%, transparent);
-  --ink: var(--foreground);
-  --ink-soft: var(--muted-foreground);
-  --rose-tint: color-mix(in oklch, var(--rose) 13%, transparent);
-  --rose-deep: color-mix(in oklch, var(--rose) 78%, #2a0d0a);
-  --gold-ink: var(--gold);
-  --gold-tint: color-mix(in oklch, var(--gold) 16%, transparent);
-  --gold-soft: color-mix(in oklch, var(--gold) 32%, transparent);
-  --ok: oklch(0.62 0.13 155);
-  --ok-tint: color-mix(in oklch, oklch(0.62 0.13 155) 14%, transparent);
-  --warn: var(--gold);
+   --paper: #fcf6f4;       /* cream background */
+  --hair: #7a6a6a;        /* muted accent */
+  --ink: #3d0a05;         /* deep espresso */
+  --ink-soft: #7a6a6a;    /* softer text */
+
+  --rose: #c2787a;                        /* dusty rose */
+  --rose-tint: #d96266;                   /* light rose tint */
+  --rose-deep: #b82a21;                   /* rich rose-brown */
+
+  --gold-ink: #d6a545;                    /* warm gold */
+  --gold-tint: #e8c078;                   /* light gold shimmer */
+  --gold-soft: #b68e4a;                   /* antique gold accent */
+
+  --ok: #1fa37c;                          /* ok green */
+  --ok-tint: rgba(31, 163, 124, 0.14);    /* subtle ok tint */
+
+  --warn: #d6a545;                        /* gold warning tone */
+
   --shadow-soft: 0 2px 16px rgba(61, 10, 5, 0.07);
   --shadow-lift: 0 12px 30px rgba(61, 10, 5, 0.12);
   --shadow-med: 0 16px 40px rgba(61, 10, 5, 0.13);
-  --shadow-btn: 0 14px 34px color-mix(in oklch, var(--rose) 46%, transparent);
+  --shadow-btn: 0 14px 34px rgba(184, 42, 33, 0.46); /* rose-deep shadow */
 
   --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
   --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
@@ -121,18 +127,32 @@
   --ring: oklch(0.72 0.09 20);
 
   /* Derived admin/info tokens for dark mode */
-  --paper: var(--card);
-  --hair: color-mix(in oklch, var(--foreground) 13%, transparent);
-  --ink: var(--foreground);
-  --ink-soft: var(--muted-foreground);
-  --rose-tint: color-mix(in oklch, var(--rose) 13%, transparent);
-  --rose-deep: color-mix(in oklch, var(--rose) 70%, white);
-  --gold-ink: oklch(0.86 0.13 88);
-  --gold-tint: color-mix(in oklch, var(--gold) 16%, transparent);
-  --gold-soft: color-mix(in oklch, var(--gold) 32%, transparent);
-  --ok: oklch(0.72 0.13 155);
-  --ok-tint: color-mix(in oklch, oklch(0.72 0.13 155) 14%, transparent);
-  --shadow-lift: 0 12px 30px rgba(0, 0, 0, 0.4);
+   --paper: var(--card);
+  --hair: rgba(61, 10, 5, 0.13);          /* muted accent */
+  --ink: var(--foreground);               /* deep espresso */
+  --ink-soft: var(--muted-foreground);    /* softer text */
+
+  --rose: #c2787a;                        /* dusty rose */
+  --rose-tint: #d96266;                   /* light rose tint */
+  --rose-deep: #b82a21;                   /* rich rose-brown */
+
+  --gold-ink: #d6a545;                    /* warm gold */
+  --gold-tint: #e8c078;                   /* light gold shimmer */
+  --gold-soft: #b68e4a;                   /* antique gold accent */
+
+  --ok: #1fa37c;                          /* ok green */
+  --ok-tint: rgba(31, 163, 124, 0.14);    /* subtle ok tint */
+
+  --warn: #d6a545;                        /* gold warning tone */
+
+  --shadow-soft: 0 2px 16px rgba(61, 10, 5, 0.07);
+  --shadow-lift: 0 12px 30px rgba(61, 10, 5, 0.12);
+  --shadow-med: 0 16px 40px rgba(61, 10, 5, 0.13);
+  --shadow-btn: 0 14px 34px rgba(184, 42, 33, 0.46); /* rose-deep shadow */
+
+  --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
+  --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-script: 'Caveat', 'Segoe Script', cursive;
 }
 
 /* Apply theme variables to Ionic components */
@@ -473,7 +493,8 @@ ion-modal {
 
 ion-modal::part(backdrop) {
   background: rgba(61, 10, 5, 0.3);
-  backdrop-filter: blur(4px);
+   backdrop-filter: blur(4px);           /* standard syntax */
+   -webkit-backdrop-filter: blur(4px);   /* Safari support */
 }
 
 /* Editorial CRUD sheet — rounded top, luxe shadow */

@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { ModalController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { checkmarkDoneOutline, trashOutline } from 'ionicons/icons';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { AdminService } from 'src/app/pages/admin-dashboard/admin.service';
 
@@ -27,7 +27,9 @@ export class PermissionFormComponent implements OnInit {
   saving = false;
   isEdit = false;
 
-  constructor(private admin: AdminService, private modalCtrl: ModalController) {}
+  constructor(private admin: AdminService,
+              private modalCtrl: ModalController,
+              private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.isEdit = this.mode === 'edit' && !!this.id;
@@ -43,10 +45,22 @@ export class PermissionFormComponent implements OnInit {
   }
 
   private buildForm(): void {
-    this.form = new FormGroup({
-      name: new FormControl(this.data?.name ?? '', [Validators.required]),
-      resource: new FormControl(this.data?.resource ?? '', [Validators.required]),
-      actions: new FormControl(this.data?.actions ?? '', [Validators.required]),
+    this.form = this.formBuilder.group({
+      // name: new FormControl(this.data?.name ?? '', [Validators.required]),
+      // resource: new FormControl(this.data?.resource ?? '', [Validators.required]),
+      // actions: new FormControl(this.data?.actions ?? '', [Validators.required]),
+        name: [
+        this.data?.name ?? '',
+        [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]+$/)],
+      ],
+      resource: [
+        this.data?.resource ?? '',
+        [Validators.required, Validators.pattern(/^[a-zA-Z-]+$/)],
+      ],
+      actions: [
+        this.data?.actions ?? '',
+        [Validators.required, Validators.pattern(/^(?:[a-z]+,)*[a-z]+$/i)],
+      ],
     });
   }
 

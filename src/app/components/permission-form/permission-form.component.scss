@@ -214,6 +214,13 @@
     .del:hover { background: color-mix(in oklch, var(--rose) 18%, transparent); }
     .del:active { transform: scale(0.98); }
 
+    ion-error {
+  color: #e74c3c; // red
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
+
     // ---- Motion ------------------------------------------------------
     @keyframes rise {
       from { opacity: 0; transform: translateY(16px); }

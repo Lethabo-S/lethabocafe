@@ -376,44 +376,6 @@ ion-content.admin-content {
   font-size: 1.1rem;
   color: var(--gold-ink);
 }
-// .status-select {
-//   border-radius: 999px;
-//   height: 32px;
-//   font-size: 0.8rem;
-// }
-
-// ion-select pill — matches the style used in the reviews tab
-
-// .status-select.status-select,
-// ion-select.status-select {
-//   --background: var(--paper);
-//   --padding-start: 14px;
-//   --padding-end: 14px;
-//   --border-radius: 14px;
-//   border: 1px solid var(--hair);
-//   border-radius: 14px;
-//   // width: 100%;
-//   height: 32px;
-//   font-family: var(--font-ui);
-//   font-size: 0.9rem;
-
-//   &::part(icon) 
-//   { color: var(--gold-ink); }
-// }
-
-// .status-select {
-//   border-radius: 999px;
-//   height: 32px;
-//   min-width: 116px;
-//   width: auto;
-//   font-size: 0.72rem;
-//   letter-spacing: 0.02em;
-//   --padding-start: 23px;
-//   --padding-end: 14px;
-
-//   &::part(icon) 
-//   { font-size: 15px; }
-// }
 
 .status-select,
 ion-select.status-select {
